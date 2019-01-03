@@ -1,19 +1,13 @@
 <template>
-  <div class="">
-    <button type="primary" @click="getValue">调用后台接口</button>
-    <input v-model="inpContent">
-    <router-link to="/login">登陆</router-link>
-  </div>
+    <div class="login">
+        <div>111</div>
+    </div>
 </template>
 
 <script>
 import axios from 'axios'
-
 export default {
   name: 'blog',
-  // components: {
-  //   Login
-  // },
   data () {
     return {
       inpContent: ''
@@ -40,11 +34,8 @@ export default {
   }
 }
 </script>
-<style scoped>
-*{
-  margin: 0;
-  padding: 0;
-  text-decoration: none;
-  color: black;
-}
+<style lang="scss" scoped>
+    .login{
+        color: aqua;
+    }
 </style>
