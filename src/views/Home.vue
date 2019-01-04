@@ -3,17 +3,14 @@
     <button type="primary" @click="getValue">调用后台接口</button>
     <input v-model="inpContent">
     <router-link to="/login">登陆</router-link>
+    <input type="button" value="显示弹窗" @click="showToast">
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-
 export default {
   name: 'blog',
-  // components: {
-  //   Login
-  // },
   data () {
     return {
       inpContent: ''
@@ -21,21 +18,14 @@ export default {
   },
   methods: {
     getValue () {
-      // axios.get('/', {params: ''})
       axios.get('/api/getValue', {
         params: { id: 1 }
       }).then((res) => {
-        // console.log('res', res)
         this.inpContent = res.data[0].name
       })
     },
-    setValue () {
-      // axios.post('/', {})
-      this.$http.post('/api/setValue', {
-        id: 1, name: this.inpContent
-      }).then((res) => {
-        // console.log('res', res)
-      })
+    showToast () {
+      this.$toast('我是弹出消息')
     }
   }
 }

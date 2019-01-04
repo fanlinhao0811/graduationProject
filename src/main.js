@@ -2,10 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import axios from 'axios'
+// import toastRegistry from './components/toast/index'
 
 Vue.config.productionTip = false
-Vue.prototype.$http = axios
+// toastRegistry()
 
 new Vue({
   router,

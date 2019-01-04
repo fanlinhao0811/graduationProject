@@ -3,14 +3,14 @@
     <div class="login">
         <div class="container">
             <div class="input-email centerX">
-                <div class="label">邮箱</div>
-                <input type="email" placeholder="请输入邮箱">
+                <div class="label">账号</div>
+                <input type="text" placeholder="请输入您的账号">
             </div>
             <div class="input-password centerX">
                 <div class="label">密码</div>
-                <input type="password" placeholder="请输入密码">
+                <input type="password" placeholder="请输入您的密码">
             </div>
-            <div class="btn centerX">
+            <div class="btn centerX" @click="login">
                 登录
             </div>
             <div class="tips centerX">
@@ -22,7 +22,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
+import toast from '../components/toast/index.js'
 export default {
   name: 'blog',
   data () {
@@ -31,14 +32,9 @@ export default {
     }
   },
   methods: {
-    getValue () {
-      // axios.get('/', {params: ''})
-      axios.get('/api/getValue', {
-        params: { id: 1 }
-      }).then((res) => {
-        // console.log('res', res)
-        this.inpContent = res.data[0].name
-      })
+    login () {
+      toast('请输入账号密码！')
+    //   alert('请输入账号密码！')
     },
     setValue () {
       // axios.post('/', {})
@@ -55,11 +51,12 @@ export default {
     .login{
         position: absolute;
         top: 0;
-        left: 0;
+        left: 50%;
         width: 100%;
-        height: 100%;
-        overflow: hidden auto;
-        background: url("../assets/images/l-r-bg.jpg") no-repeat;
+        max-width: 750px;
+        transform: translateX(-50%);
+        height: 100vh;
+        background: url("../assets/images/l-r-bg.jpeg") no-repeat;
         background-size: 100% auto;
         background-color: #fff;
         .container{
@@ -69,14 +66,14 @@ export default {
                 width: 80%;
                 margin-left: 10%;
                 height: 50px;
-                border: 1px solid rgb(219,219,219); /* no */
+                border: 1px solid rgb(219,219,219);
                 padding: 20px 35px 20px 0;
                 display: flex;
                 align-items: center;
                 box-sizing: border-box;
                 .label{
                     width: 30%;
-                    font-size: 26px;
+                    font-size: 24px;
                     color: #999999;
                 }
                 input{
@@ -87,23 +84,23 @@ export default {
                     width: 70%;
                     height: 35px;
                     border: 0;
-                    border-left: 1px solid rgb(219,219,219); /* no */
+                    border-left: 1px solid rgb(219,219,219);
                     padding-left: 20px;
                 }
             }
             .input-email{
-                margin-top: 300px;
+                margin-top: 80%;
             }
             .input-password{
-                margin-top: 50px;
+                margin-top: 10%;
             }
             .btn{
-                width: 80%;
-                margin: 50px 10% 0;
+                width: 50%;
+                margin: 10% 25% 0;
                 height: 60px;
                 border-radius: 10px;
                 background-color: rgb(219,219,219);
-                font-size: 28px;
+                font-size: 24px;
                 color: #fff;
                 font-weight: bold;
                 line-height: 60px;
@@ -113,13 +110,13 @@ export default {
                 background-color: #666;
             }
             .tips{
-                top: 980px;
                 width: 100%;
+                margin-top: 15%;
                 font-size: 22px;
                 color: #666666;
                 padding: 5px 0;
                 display: flex;
-                justify-content: space-between;
+                justify-content: space-around;
             }
         }
     }
