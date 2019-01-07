@@ -4,7 +4,7 @@
         <div class="container">
             <div class="input-email centerX">
                 <div class="label">账号</div>
-                <input type="text" placeholder="请输入您的账号">
+                <input type="text" placeholder="请输入您的账号" v-model="xx">
             </div>
             <div class="input-password centerX">
                 <div class="label">密码</div>
@@ -17,6 +17,7 @@
                 <div class="register">注册</div>
                 <div class="forgot">忘记密码</div>
             </div>
+            <!-- <div>{{isLogin}}</div> -->
         </div>
     </div>
 </template>
@@ -24,16 +25,38 @@
 <script>
 // import axios from 'axios'
 import toast from '../components/toast/index.js'
+import { mapState } from 'vuex'
 export default {
   name: 'blog',
   data () {
     return {
-      inpContent: ''
+      inpContent: '',
+      xx: ''
     }
   },
+  created () {
+    if (this.$store.state.isLogin) {
+      this.xx = this.$store.state.name
+      console.log(this.$store.getters.doneTodosCount)
+    //   this.$router.push({ path: '/' })
+    }
+  },
+  //   computed: {
+  //     isLogin () {
+  //       return this.$store.state.isLogin
+  //     }
+  //   },
+  computed: mapState({
+    isLogin: state => state.isLogin,
+    name: state => state.name
+  }),
   methods: {
     login () {
+      console.log(this.xx)
       toast('请输入账号密码！')
+      //   this.$store.state.isLogin = this.xx
+      this.$store.commit('login', this.xx)
+    //   console.log(this.$store.state.isLogin)
     //   alert('请输入账号密码！')
     },
     setValue () {

@@ -9,6 +9,7 @@
 
 <script>
 import axios from 'axios'
+import toast from '../components/toast/index.js'
 export default {
   name: 'blog',
   data () {
@@ -25,7 +26,7 @@ export default {
       })
     },
     showToast () {
-      this.$toast('我是弹出消息')
+      toast('我是弹出消息')
     }
   }
 }
