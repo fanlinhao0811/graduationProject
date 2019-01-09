@@ -18,18 +18,28 @@ module.exports = {
       var sql = sqlMap.getValue
       connection.query(sql, [id], (err, result) => {
         res.json(result)
-          connection.release()
+        connection.release()
       })
     })
   },
   setValue (req, res, next) {
     console.log(req.body)
-    var id = req.body.id; var name = req.body.name
+    var name = req.body.name
     pool.getConnection((err, connection) => {
       var sql = sqlMap.setValue
-      connection.query(sql, [name, id], (err, result) => {
+      connection.query(sql, [name], (err, result) => {
         res.json(result)
-          connection.release()
+        connection.release()
+      })
+    })
+  },
+  newUser (req, res, next) {
+    var name = req.body.name
+    pool.getConnection((err, connection) => {
+      var sql = sqlMap.newUser
+      connection.query(sql, [name], (err, result) => {
+        res.json(result)
+        connection.release()
       })
     })
   }

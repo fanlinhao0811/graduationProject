@@ -8,9 +8,9 @@
             </div>
             <div class="input-password centerX">
                 <div class="label">密码</div>
-                <input type="password" placeholder="请输入您的密码">
+                <input type="password" placeholder="请输入您的密码" v-model="pwd">
             </div>
-            <div class="btn centerX" @click="login">
+            <div class="btn centerX" @click="newUser">
                 登录
             </div>
             <div class="tips centerX">
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 import toast from '../components/toast/index.js'
 import { mapState } from 'vuex'
 export default {
@@ -31,7 +31,8 @@ export default {
   data () {
     return {
       inpContent: '',
-      xx: ''
+      xx: '',
+      pwd: ''
     }
   },
   created () {
@@ -56,15 +57,22 @@ export default {
       toast('请输入账号密码！')
       //   this.$store.state.isLogin = this.xx
       this.$store.commit('login', this.xx)
+      document.cookie = 'isLogin=true'
     //   console.log(this.$store.state.isLogin)
     //   alert('请输入账号密码！')
     },
     setValue () {
-      // axios.post('/', {})
-      this.$http.post('/api/setValue', {
-        id: 1, name: this.inpContent
+      axios.post('/api/setValue', {
+        name: this.xx
       }).then((res) => {
-        // console.log('res', res)
+        console.log('res', res)
+      })
+    },
+    newUser () {
+      axios.post('/api/newUser', {
+        name: this.xx
+      }).then((res) => {
+        console.log('res', res)
       })
     }
   }

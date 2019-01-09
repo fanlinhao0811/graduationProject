@@ -10,4 +10,8 @@ router.post('/setValue', (req, res, next) => {
   api.setValue(req, res, next)
 })
 
+router.post('/newUser', (req, res, next) => {
+  api.newUser(req, res, next)
+})
+
 module.exports = router
