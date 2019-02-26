@@ -14,7 +14,7 @@ import mfooter from '../components/Footer'
 import axios from 'axios'
 import toast from '../components/toast/index.js'
 export default {
-  name: 'blog',
+  name: 'home',
   components: {
     mfooter
   },
