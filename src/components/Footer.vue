@@ -1,10 +1,9 @@
 <template>
     <div class="footer" :style="{background:bgColor}">
-        <ul>
-            <li><router-link to='/'>All</router-link></li>
-            <li><router-link to='/finder'>FINDER</router-link></li>
-            <li><router-link to='/me'>ME</router-link></li>
-        </ul>
+      <div><router-link to='/home'>Home</router-link></div>
+      <div><router-link to='/finder'>Finder</router-link></div>
+      <div><router-link to='/new'>New</router-link></div>
+      <div><router-link to='/me'>Me</router-link></div>
     </div>
 </template>
 <script>
@@ -25,20 +24,15 @@ export default {
     bottom:0;
     right: 0;
     width:100%;
-    }
-  .footer ul{
     display: flex;
+    justify-content: space-around;
+    align-items: center;
     }
-  .footer li{
-    flex: 1;
-    text-align : center;
-    list-style: none;
-    }
-  .footer li a{
+  .footer div a{
     text-decoration: none;
     color: #ccc;
    }
-  .footer li a.router-link-active{
+  .footer div a.router-link-active{
     color: #fff;
    }
 </style>

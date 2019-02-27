@@ -1,20 +1,45 @@
 
 <template>
-    <div class="login">
-        <div class="container">
-            <div class="btn centerX" @click="newUser">
-                登录
-            </div>
-        </div>
+  <div class="me">
+    <header>
+      <div><img src="../assets/images/me/settings.png" alt=""></div>
+      <div>个人主页</div>
+      <div><img src="../assets/images/me/plus.png" alt=""></div>
+    </header>
+    <div class="my-page">
+      <div class="my-page-img">
+        <img src="https://wpimg.wallstcn.com/ed378f0d-3c05-4efa-a36e-c94c41b5f360" alt="">
+      </div>
+      <div class="my-page-contain">
+        <p>{{xx}}</p>
+        <p>简介：{{xx}}</p>
+      </div>
     </div>
+    <div class="my-time">
+      <div>
+        <p>11</p>
+        <p>时刻</p>
+      </div>
+      <div>
+        <p>11</p>
+        <p>关注</p>
+      </div>
+      <div>
+        <p>11</p>
+        <p>粉丝</p>
+      </div>
+    </div>
+    <mfooter bgColor="rgb(121, 85, 72)"></mfooter>
+  </div>
 </template>
 
 <script>
 import axios from 'axios'
 import toast from '../components/toast/index.js'
 import { mapState } from 'vuex'
+import mfooter from '../components/Footer'
 export default {
-  name: 'blog',
+  name: 'me',
   data () {
     return {
       inpContent: '',
@@ -22,11 +47,14 @@ export default {
       pwd: ''
     }
   },
+  components: {
+    mfooter
+  },
   created () {
     if (this.$store.state.isLogin) {
       this.xx = this.$store.state.name
-      console.log(this.$store.getters.doneTodosCount)
-    //   this.$router.push({ path: '/' })
+    } else {
+      this.$router.push({ path: '/home' })
     }
   },
   //   computed: {
@@ -65,77 +93,64 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-    .login{
-        position: absolute;
-        top: 0;
-        left: 50%;
-        width: 100%;
-        max-width: 750px;
-        transform: translateX(-50%);
-        height: 100vh;
-        background: url("../assets/images/l-r-bg.jpeg") no-repeat;
-        background-size: 100% auto;
-        background-color: #fff;
-        .container{
-            width: 100%;
-            position: relative;
-            .input-email, .input-password{
-                width: 80%;
-                margin-left: 10%;
-                height: 50px;
-                border: 1px solid rgb(219,219,219);
-                padding: 20px 35px 20px 0;
-                display: flex;
-                align-items: center;
-                box-sizing: border-box;
-                .label{
-                    width: 30%;
-                    font-size: 24px;
-                    color: #999999;
-                }
-                input{
-                    background:none;
-                    outline:none;
-                    -webkit-appearance: none;
-                    border-radius: 0;
-                    width: 70%;
-                    height: 35px;
-                    border: 0;
-                    border-left: 1px solid rgb(219,219,219);
-                    padding-left: 20px;
-                }
-            }
-            .input-email{
-                margin-top: 80%;
-            }
-            .input-password{
-                margin-top: 10%;
-            }
-            .btn{
-                width: 50%;
-                margin: 10% 25% 0;
-                height: 60px;
-                border-radius: 10px;
-                background-color: rgb(219,219,219);
-                font-size: 24px;
-                color: #fff;
-                font-weight: bold;
-                line-height: 60px;
-                text-align: center;
-            }
-            .btn.active{
-                background-color: #666;
-            }
-            .tips{
-                width: 100%;
-                margin-top: 15%;
-                font-size: 22px;
-                color: #666666;
-                padding: 5px 0;
-                display: flex;
-                justify-content: space-around;
-            }
-        }
-    }
+<style scoped>
+  .me{
+    width: 100%;
+    min-height: 100vh;
+    font-size: .33rem;
+  }
+  header{
+    display: flex;
+    width: 100%;
+    height: 50px;
+    border-bottom: 1px solid #999;
+    justify-content: space-between;
+    align-items: center;
+  }
+  header div:nth-child(1){
+    width: 20%;
+  }
+  header div:nth-child(2){
+    width: 60%;
+  }
+  header div:nth-child(3){
+    width: 20%;
+  }
+  header img{
+    width: .48rem;
+    vertical-align: middle;
+  }
+  .my-page{
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+  }
+  .my-page-img{
+    width: 30%;
+  }
+  .my-page-img img{
+    width: 80px;
+    border-radius: 60px;
+    vertical-align: middle;
+  }
+  .my-page-contain{
+    width: 70%;
+  }
+  .my-page-contain p{
+    text-align: left;
+  }
+  .my-time{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-bottom: 1px solid #ccca;
+  }
+  .my-time div p:nth-child(1){
+    margin-bottom: 4px;
+  }
+  .my-time div p:nth-child(2){
+    margin-top: 0;
+  }
 </style>

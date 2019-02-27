@@ -8,6 +8,10 @@ export default new Router({
   routes: [
     {
       path: '/',
+      redirect: '/home'
+    },
+    {
+      path: '/home',
       name: 'home',
       component: Home
     },
@@ -15,6 +19,11 @@ export default new Router({
       path: '/finder',
       name: 'finder',
       component: () => import('./views/Finder.vue')
+    },
+    {
+      path: '/new',
+      name: 'new',
+      component: () => import('./views/New.vue')
     },
     {
       path: '/me',

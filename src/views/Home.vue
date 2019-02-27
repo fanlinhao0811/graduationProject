@@ -43,5 +43,6 @@ export default {
   padding: 0;
   text-decoration: none;
   color: black;
+  font-size: .4rem;
 }
 </style>
