@@ -1,3 +1,4 @@
+/* eslint-disable */
 !(function (n) {
   var e = n.document
 

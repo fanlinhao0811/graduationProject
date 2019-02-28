@@ -2,12 +2,14 @@
 <template>
   <div class="new">
     <header>
-      <div>取消</div>
+      <div @click="cancel">取消</div>
       <div>创意时刻</div>
-      <div>发送</div>
+      <div @click="newMonment">发送</div>
     </header>
     <textarea class="new-content" placeholder="分享你的moment..."></textarea>
+    <input type="file" name="image" accept=“image/*” onchange='handleInputChange'>
     <mfooter bgColor="rgb(121, 85, 72)"></mfooter>
+    <conform :showConform='showConform' :conformMsg='conformMsg' @hideConform="hideConform" @btnTrue="btnTrue"></conform>
   </div>
 </template>
 
@@ -16,17 +18,21 @@ import axios from 'axios'
 // import toast from '../components/toast/index.js'
 import { mapState } from 'vuex'
 import mfooter from '../components/Footer'
+import conform from '../components/Conform'
 export default {
   name: 'me',
   data () {
     return {
       inpContent: '',
       xx: '',
-      pwd: ''
+      pwd: '',
+      showConform: '',
+      conformMsg: ''
     }
   },
   components: {
-    mfooter
+    mfooter,
+    conform
   },
   created () {
     if (this.$store.state.isLogin) {
@@ -46,6 +52,20 @@ export default {
       }).then((res) => {
         console.log('res', res)
       })
+    },
+    cancel () {
+      this.showConform = true
+      this.conformMsg = '需要为您保存草稿吗？'
+    },
+    newMonment () {
+      this.showConform = true
+      this.conformMsg = '您确定发布吗？'
+    },
+    hideConform (val) {
+      this.showConform = val
+    },
+    btnTrue () {
+      this.showConform = false
     }
   }
 }
@@ -82,9 +102,9 @@ export default {
     border-radius: 5px;
   }
   .new-content{
-    margin-top: 0.2rem;
+    padding: 0.2rem 0px 0 0;
     width: 100%;
-    height: 5rem;
+    height: 7rem;
     border: none;
   }
 </style>
