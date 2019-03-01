@@ -40,7 +40,7 @@ export default {
     if (this.$store.state.isLogin) {
       this.xx = this.$store.state.name
       console.log(this.$store.getters.doneTodosCount)
-    //   this.$router.push({ path: '/' })
+      this.$router.push({ path: '/' })
     }
   },
   //   computed: {
@@ -54,7 +54,6 @@ export default {
   }),
   methods: {
     login () {
-      console.log(this.xx)
       toast('请输入账号密码！')
       //   this.$store.state.isLogin = this.xx
       this.$store.commit('login', this.xx)
