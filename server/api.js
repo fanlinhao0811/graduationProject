@@ -42,5 +42,15 @@ module.exports = {
         connection.release()
       })
     })
+  },
+  login (req, res, next) {
+    var name = req.query.name
+    pool.getConnection((err, connection) => {
+      var sql = sqlMap.login
+      connection.query(sql, [name], (err, result) => {
+        res.json(result)
+        connection.release()
+      })
+    })
   }
 }

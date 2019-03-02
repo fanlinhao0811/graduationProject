@@ -14,4 +14,8 @@ router.post('/newUser', (req, res, next) => {
   api.newUser(req, res, next)
 })
 
+router.get('/login', (req, res, next) => {
+  api.login(req, res, next)
+})
+
 module.exports = router

@@ -31,5 +31,6 @@ export default {
   background-color: rgba(0, 0, 0, .9);
   border-radius: 5px;
   transition: all .3s;
+  font-size: 0.3rem;
 }
 </style>

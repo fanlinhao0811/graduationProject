@@ -11,7 +11,7 @@
           <div class="label">密码</div>
           <input type="password" placeholder="请输入您的密码" v-model="pwd">
         </div>
-        <div class="btn" @click="newUser">
+        <div class="btn" @click="login">
           登录
         </div>
         <div class="tips">
@@ -31,16 +31,15 @@ export default {
   name: 'login',
   data () {
     return {
-      inpContent: '',
       xx: '',
       pwd: ''
     }
   },
   created () {
     if (this.$store.state.isLogin) {
-      this.xx = this.$store.state.name
-      console.log(this.$store.getters.doneTodosCount)
-      this.$router.push({ path: '/' })
+      // this.xx = this.$store.state.name
+      // console.log(this.$store.getters.doneTodosCount)
+      // this.$router.push({ path: '/' })
     }
   },
   //   computed: {
@@ -54,12 +53,23 @@ export default {
   }),
   methods: {
     login () {
-      toast('请输入账号密码！')
+      if (!this.xx || !this.pwd) {
+        toast('请输入账号密码！')
+        return
+      }
+      axios.get('/api/login', {
+        params: { name: this.xx }
+      }).then((res) => {
+        console.log('res', res)
+      })
+      // axios.get('/api/getValue', {
+      //   params: { id: 1 }
+      // }).then((res) => {
+      //   this.inpContent = res.data[0].name
+      // })
       //   this.$store.state.isLogin = this.xx
-      this.$store.commit('login', this.xx)
-      document.cookie = 'isLogin=true'
-    //   console.log(this.$store.state.isLogin)
-    //   alert('请输入账号密码！')
+      // this.$store.commit('login', this.xx)
+      // document.cookie = 'isLogin=true'
     },
     setValue () {
       axios.post('/api/setValue', {
