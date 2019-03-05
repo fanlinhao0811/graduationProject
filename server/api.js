@@ -45,13 +45,27 @@ module.exports = {
   },
   login (req, res, next) {
     var name = req.query.name
+    var pwd = req.query.pwd
     pool.getConnection((err, connection) => {
       if (err) {
-        console.log(err)
+        res.send(err)
       } else {
-        var sql = sqlMap.login
-        connection.query(sql, [name], (err, result) => {
-          res.send(result)
+        var beforeSql = sqlMap.beforeLogin
+        connection.query(beforeSql, [name], (err, result) => {
+          if (Array.isArray(result) && result.length === 0) {
+            res.send('此用户不存在')
+          } else {
+            console.log(22)
+            var sql = sqlMap.login
+            connection.query(sql, [name, pwd], (err, result) => {
+              if (Array.isArray(result) && result.length === 0) {
+                res.send('密码错误')
+              } else {
+                res.json(result)
+              }
+            })
+          }
+          // res.send(result)
           // res.json(result)
           connection.release()
         })
