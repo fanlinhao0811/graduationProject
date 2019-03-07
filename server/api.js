@@ -55,7 +55,6 @@ module.exports = {
           if (Array.isArray(result) && result.length === 0) {
             res.send('此用户不存在')
           } else {
-            console.log(22)
             var sql = sqlMap.login
             connection.query(sql, [name, pwd], (err, result) => {
               if (Array.isArray(result) && result.length === 0) {
@@ -63,10 +62,9 @@ module.exports = {
               } else {
                 res.json(result)
               }
+              connection.release()
             })
           }
-          // res.send(result)
-          // res.json(result)
           connection.release()
         })
       }
