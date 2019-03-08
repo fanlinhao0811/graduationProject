@@ -62,7 +62,6 @@ module.exports = {
               } else {
                 res.json(result)
               }
-              connection.release()
             })
           }
           connection.release()

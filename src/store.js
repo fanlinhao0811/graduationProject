@@ -21,9 +21,9 @@ export default new Vuex.Store({
     // }
   },
   mutations: {
-    // login (state, msg) {
-    //   state.isLogin = msg
-    // }
+    login (state, msg) {
+      state.name = msg.name
+    }
   },
   actions: {
 

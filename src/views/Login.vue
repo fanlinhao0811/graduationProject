@@ -58,9 +58,15 @@ export default {
         return
       }
       axios.get('/api/login', {
-        params: { name: this.xx }
+        params: { name: this.xx, pwd: this.pwd }
       }).then((res) => {
-        console.log('res', res)
+        if (typeof res.data === 'string') {
+          toast(res.data)
+        } else {
+          toast('登陆成功')
+          this.$store.commit('login', res.data[0])
+          this.$router.push({ path: '/' })
+        }
       })
       // axios.get('/api/getValue', {
       //   params: { id: 1 }
