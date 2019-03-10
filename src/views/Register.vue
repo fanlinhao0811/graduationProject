@@ -1,8 +1,9 @@
 
 <template>
   <transition name="fadeIn">
-    <div class="login">
+    <div class="register">
       <div class="container">
+        <header><img src="../assets/images/back.png" alt=""> 相识是一种缘分</header>
         <div class="input-name">
           <div class="label">账号</div>
           <input type="text" placeholder="请输入您的账号" v-model="xx">
@@ -12,11 +13,7 @@
           <input type="password" placeholder="请输入您的密码" v-model="pwd">
         </div>
         <div class="btn" @click="login" :style="{ backgroundColor: pwd === ''? 'rgb(219,219,219)' : 'rgb(113,113,113)'}">
-          登录
-        </div>
-        <div class="tips">
-          <div class="register">注册</div>
-          <div class="forgot">忘记密码</div>
+          注册
         </div>
       </div>
     </div>
@@ -26,30 +23,14 @@
 <script>
 import axios from 'axios'
 import toast from '../components/toast/index.js'
-import { mapState } from 'vuex'
 export default {
-  name: 'login',
+  name: 'register',
   data () {
     return {
       xx: '',
       pwd: ''
     }
   },
-  created () {
-    if (this.$store.state.isLogin) {
-      this.xx = this.$store.state.info.name
-      // console.log(this.$store.getters.doneTodosCount)
-    }
-  },
-  //   computed: {
-  //     isLogin () {
-  //       return this.$store.state.isLogin
-  //     }
-  //   },
-  computed: mapState({
-    isLogin: state => state.isLogin,
-    name: state => state.name
-  }),
   methods: {
     login () {
       if (!this.xx || !this.pwd) {
@@ -67,14 +48,6 @@ export default {
           this.$router.push({ path: '/' })
         }
       })
-      // document.cookie = 'isLogin=true'
-    },
-    setValue () {
-      axios.post('/api/setValue', {
-        name: this.xx
-      }).then((res) => {
-        console.log('res', res)
-      })
     },
     newUser () {
       axios.post('/api/newUser', {
@@ -87,20 +60,31 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  .login{
+  .register{
     width: 100%;
     height: 100vh;
-    background: url("../assets/images/l-r-bg.jpeg") top / cover no-repeat;
+    background: rgb(245, 245, 245);
     font-size: 0.4rem;
   }
   .container{
     width: 100%;
     position: relative;
-    padding-top: 80%;
+    padding-top: 5%;
+  }
+  header{
+    display: flex;
+    align-items: center;
+  }
+  header img{
+    width: 8px;
+    height: 15.5px;
+    margin: 0 20% 0 10%;
+    vertical-align: middle;
   }
   .input-name, .input-password{
     width: 80%;
     margin-left: 10%;
+    margin-top: 10%;
     height: 50px;
     border: 1px solid rgb(219,219,219);
     padding: 20px 35px 20px 0;

@@ -31,9 +31,16 @@ export default new Router({
       component: () => import('./views/Me.vue')
     },
     {
+      // 登陆
       path: '/login',
       name: 'login',
       component: () => import('./views/Login.vue')
+    },
+    {
+      // 注册
+      path: '/register',
+      name: 'register',
+      component: () => import('./views/Register.vue')
     }
   ]
 })
