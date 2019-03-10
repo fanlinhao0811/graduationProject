@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     isLogin: false,
-    name: ''
+    info: ''
     // todos: [
     //   { id: 1, text: '...', done: true },
     //   { id: 2, text: '...', done: false }
@@ -22,7 +22,8 @@ export default new Vuex.Store({
   },
   mutations: {
     login (state, msg) {
-      state.name = msg.name
+      state.info = msg
+      state.isLogin = true
     }
   },
   actions: {

@@ -11,7 +11,7 @@
           <div class="label">密码</div>
           <input type="password" placeholder="请输入您的密码" v-model="pwd">
         </div>
-        <div class="btn" @click="login">
+        <div class="btn" @click="login" :style="{ backgroundColor: pwd === ''? 'rgb(219,219,219)' : 'rgb(113,113,113)'}">
           登录
         </div>
         <div class="tips">
@@ -37,9 +37,8 @@ export default {
   },
   created () {
     if (this.$store.state.isLogin) {
-      // this.xx = this.$store.state.name
+      this.xx = this.$store.state.info.name
       // console.log(this.$store.getters.doneTodosCount)
-      // this.$router.push({ path: '/' })
     }
   },
   //   computed: {
@@ -68,13 +67,6 @@ export default {
           this.$router.push({ path: '/' })
         }
       })
-      // axios.get('/api/getValue', {
-      //   params: { id: 1 }
-      // }).then((res) => {
-      //   this.inpContent = res.data[0].name
-      // })
-      //   this.$store.state.isLogin = this.xx
-      // this.$store.commit('login', this.xx)
       // document.cookie = 'isLogin=true'
     },
     setValue () {

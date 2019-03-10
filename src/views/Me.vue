@@ -51,7 +51,6 @@ export default {
     mfooter
   },
   created () {
-    console.log(this.$store.state)
     if (this.$store.state.isLogin) {
       this.xx = this.$store.state.name
     } else {
