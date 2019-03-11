@@ -15,7 +15,7 @@
           登录
         </div>
         <div class="tips">
-          <div class="register">注册</div>
+          <div class="register" @click="$router.push({path:'/register'})">注册</div>
           <div class="forgot">忘记密码</div>
         </div>
       </div>

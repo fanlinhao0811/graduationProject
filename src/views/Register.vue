@@ -3,7 +3,7 @@
   <transition name="fadeIn">
     <div class="register">
       <div class="container">
-        <header><img src="../assets/images/back.png" alt=""> 相识是一种缘分</header>
+        <header><img src="../assets/images/back.png" alt="" @click="$router.go(-1)"> 相识是一种缘分</header>
         <div class="input-name">
           <div class="label">账号</div>
           <input type="text" placeholder="请输入您的账号" v-model="xx">
@@ -12,8 +12,16 @@
           <div class="label">密码</div>
           <input type="password" placeholder="请输入您的密码" v-model="pwd">
         </div>
-        <div class="btn" @click="login" :style="{ backgroundColor: pwd === ''? 'rgb(219,219,219)' : 'rgb(113,113,113)'}">
-          注册
+        <div class="input-password">
+          <div class="label">确认密码</div>
+          <input type="password" placeholder="请再次输入您的密码" v-model="pwd1">
+        </div>
+        <div class="holder-tips">
+          <p v-show="pwd !== '' && pwd1 !== '' && pwd !== pwd1">两次密码不匹配哦</p>
+        </div>
+         <input type="text" placeholder="用一句话描述一下自己吧" class="input-desc">
+        <div class="btn" @click="newUser" :style="{ backgroundColor: (pwd !== '' && pwd1 !== '' && pwd === pwd1 )? 'rgb(113,113,113)' : 'rgb(219,219,219)'}">
+          注册并登陆
         </div>
       </div>
     </div>
@@ -28,17 +36,19 @@ export default {
   data () {
     return {
       xx: '',
-      pwd: ''
+      pwd: '',
+      pwd1: '',
+      desc: ''
     }
   },
   methods: {
-    login () {
+    newUser () {
       if (!this.xx || !this.pwd) {
         toast('请输入账号密码！')
         return
       }
-      axios.get('/api/login', {
-        params: { name: this.xx, pwd: this.pwd }
+      axios.post('/api/newUser', {
+        name: this.xx, pwd: this.pwd
       }).then((res) => {
         if (typeof res.data === 'string') {
           toast(res.data)
@@ -47,13 +57,6 @@ export default {
           this.$store.commit('login', res.data[0])
           this.$router.push({ path: '/' })
         }
-      })
-    },
-    newUser () {
-      axios.post('/api/newUser', {
-        name: this.xx
-      }).then((res) => {
-        console.log('res', res)
       })
     }
   }
@@ -84,17 +87,18 @@ export default {
   .input-name, .input-password{
     width: 80%;
     margin-left: 10%;
-    margin-top: 10%;
+    margin-top: 5%;
     height: 50px;
     border: 1px solid rgb(219,219,219);
     padding: 20px 35px 20px 0;
     display: flex;
     align-items: center;
     box-sizing: border-box;
+    font-size: 0.3rem;
   }
  .label{
     width: 30%;
-    font-size: 24px;
+    font-size: 18px;
     color: #999999;
   }
   input{
@@ -107,6 +111,27 @@ export default {
     border: 0;
     border-left: 1px solid rgb(219,219,219);
     padding-left: 20px;
+  }
+  .holder-tips{
+    width: 80%;
+    height: 20px;
+    margin-left: 10%;
+    font-size: 0.25rem;
+    color: #f99;
+    text-align: right;
+  }
+  .holder-tips p{
+    padding: 0;
+    margin: 0;
+  }
+  .input-desc{
+    width: 80%;
+    border-left: none;
+    border-bottom: 1px solid rgb(219,219,219);
+    padding-left: 0;
+  }
+  .input-desc::-webkit-input-placeholder{
+    font-size:0.25rem;
   }
   .btn{
     width: 50%;
