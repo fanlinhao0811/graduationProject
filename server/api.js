@@ -35,9 +35,11 @@ module.exports = {
   },
   newUser (req, res, next) {
     var name = req.body.name
+    var pwd = req.body.pwd
+    var desc = req.body.desc
     pool.getConnection((err, connection) => {
       var sql = sqlMap.newUser
-      connection.query(sql, [name], (err, result) => {
+      connection.query(sql, [name, pwd, desc], (err, result) => {
         res.json(result)
         connection.release()
       })

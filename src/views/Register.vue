@@ -19,7 +19,7 @@
         <div class="holder-tips">
           <p v-show="pwd !== '' && pwd1 !== '' && pwd !== pwd1">两次密码不匹配哦</p>
         </div>
-         <input type="text" placeholder="用一句话描述一下自己吧" class="input-desc">
+         <input type="text" placeholder="用一句话描述一下自己吧" class="input-desc" v-model="desc">
         <div class="btn" @click="newUser" :style="{ backgroundColor: (pwd !== '' && pwd1 !== '' && pwd === pwd1 )? 'rgb(113,113,113)' : 'rgb(219,219,219)'}">
           注册并登陆
         </div>
@@ -48,15 +48,18 @@ export default {
         return
       }
       axios.post('/api/newUser', {
-        name: this.xx, pwd: this.pwd
+        name: this.xx,
+        pwd: this.pwd,
+        desc: this.desc
       }).then((res) => {
-        if (typeof res.data === 'string') {
-          toast(res.data)
-        } else {
-          toast('登陆成功')
-          this.$store.commit('login', res.data[0])
-          this.$router.push({ path: '/' })
-        }
+        console.log(res)
+        // if (typeof res.data === 'string') {
+        //   toast(res.data)
+        // } else {
+        //   toast('登陆成功')
+        //   this.$store.commit('login', res.data[0])
+        //   this.$router.push({ path: '/' })
+        // }
       })
     }
   }
