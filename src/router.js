@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+/* Layout */
+import Layout from '@/components/Layout'
 
 Vue.use(Router)
 
@@ -49,8 +51,14 @@ export default new Router({
     },
     {
       path: '/admin',
-      name: 'admin',
-      component: () => import('./views/Admin.vue')
+      component: Layout,
+      children: [
+        {
+          path: 'index',
+          component: () => import('@/views/test/index'),
+          name: 'test'
+        }
+      ]
     }
   ]
 })
