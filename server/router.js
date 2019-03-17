@@ -18,4 +18,8 @@ router.get('/login', (req, res, next) => {
   api.login(req, res, next)
 })
 
+router.post('/newMoment', (req, res, next) => {
+  api.newMoment(req, res, next)
+})
+
 module.exports = router

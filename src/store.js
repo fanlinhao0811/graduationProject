@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     isLogin: false,
-    info: ''
+    info: '',
+    sidebar: ''
     // todos: [
     //   { id: 1, text: '...', done: true },
     //   { id: 2, text: '...', done: false }

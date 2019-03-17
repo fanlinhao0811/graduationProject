@@ -48,7 +48,7 @@ export default {
   //   },
   computed: mapState({
     isLogin: state => state.isLogin,
-    name: state => state.name
+    name: state => state.info.name
   }),
   methods: {
     login () {

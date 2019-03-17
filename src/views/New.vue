@@ -6,7 +6,7 @@
       <div>创意时刻</div>
       <div @click="newMonment">发送</div>
     </header>
-    <textarea class="new-content" placeholder="分享你的moment..."></textarea>
+    <textarea class="new-content" placeholder="分享你的moment..." v-model="moment"></textarea>
     <input type="file" name="image" accept=“image/*” onchange='handleInputChange'>
     <mfooter bgColor="rgb(121, 85, 72)"></mfooter>
     <conform :showConform='showConform' :conformMsg='conformMsg' @hideConform="hideConform" @btnTrue="btnTrue"></conform>
@@ -20,14 +20,12 @@ import { mapState } from 'vuex'
 import mfooter from '../components/Footer'
 import conform from '../components/Conform'
 export default {
-  name: 'me',
+  name: 'new',
   data () {
     return {
-      inpContent: '',
-      xx: '',
-      pwd: '',
       showConform: '',
-      conformMsg: ''
+      conformMsg: '',
+      moment: ''
     }
   },
   components: {
@@ -35,24 +33,15 @@ export default {
     conform
   },
   created () {
-    if (this.$store.state.isLogin) {
-      this.xx = this.$store.state.name
-    } else {
+    if (!this.isLogin) {
       this.$router.push({ path: '/login' })
     }
   },
   computed: mapState({
     isLogin: state => state.isLogin,
-    name: state => state.name
+    info: state => state.info
   }),
   methods: {
-    setValue () {
-      axios.post('/api/setValue', {
-        name: this.xx
-      }).then((res) => {
-        console.log('res', res)
-      })
-    },
     cancel () {
       this.showConform = true
       this.conformMsg = '需要为您保存草稿吗？'
@@ -66,6 +55,12 @@ export default {
     },
     btnTrue () {
       this.showConform = false
+      axios.post('/api/newMoment', {
+        moment: this.moment,
+        user_id: this.info.id
+      }).then((res) => {
+        console.log('res', res)
+      })
     }
   }
 }

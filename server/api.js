@@ -70,5 +70,16 @@ module.exports = {
         })
       }
     })
+  },
+  newMoment (req, res, next) {
+    var moment = req.body.moment
+    var userId = req.body.user_id
+    pool.getConnection((err, connection) => {
+      var sql = sqlMap.newMoment
+      connection.query(sql, [moment, userId], (err, result) => {
+        res.json(result)
+        connection.release()
+      })
+    })
   }
 }

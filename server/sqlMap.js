@@ -3,7 +3,8 @@ var sqlMap = {
   setValue: 'INSERT INTO user SET name= ?',
   newUser: 'INSERT INTO user SET name= ? , pwd = ? , `desc` = ?',
   login: 'SELECT * FROM user WHERE name = ? AND pwd = ? ',
-  beforeLogin: 'SELECT * FROM user WHERE name = ?'
+  beforeLogin: 'SELECT * FROM user WHERE name = ?',
+  newMoment: 'INSERT INTO user_moment SET moment= ? , user_id = ?'
 }
 
 module.exports = sqlMap
