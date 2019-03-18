@@ -7,7 +7,12 @@
       <div @click="newMonment">发送</div>
     </header>
     <textarea class="new-content" placeholder="分享你的moment..." v-model="moment"></textarea>
-    <input type="file" name="image" accept=“image/*” onchange='handleInputChange'>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+      <h2>单图上传</h2>
+      <input type="file" name="logo">
+      <input type="submit" value="提交">
+    </form>
+    <!-- <input type="file" name="image" accept=“image/*” id='upload' @change='handleInputChange()'> -->
     <mfooter bgColor="rgb(121, 85, 72)"></mfooter>
     <conform :showConform='showConform' :conformMsg='conformMsg' @hideConform="hideConform" @btnTrue="btnTrue"></conform>
   </div>
@@ -19,6 +24,7 @@ import axios from 'axios'
 import { mapState } from 'vuex'
 import mfooter from '../components/Footer'
 import conform from '../components/Conform'
+import $ from 'jquery'
 export default {
   name: 'new',
   data () {
@@ -60,6 +66,31 @@ export default {
         user_id: this.info.id
       }).then((res) => {
         console.log('res', res)
+      })
+    },
+    handleInputChange () {
+      var form = document.getElementById('upload')
+
+      var formData = new FormData(form)
+      $.ajax({
+        url: 'https://sscpre.boe.com/v1/medical-console/medical/file/upload',
+        type: 'post',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (res) {
+          if (res) {
+            alert('上传成功！')
+          }
+          console.log(res)
+          $('#pic').val('')
+          $('.showUrl').html(res)
+          $('.showPic').attr('src', res)
+        },
+        error: function (err) {
+          alert('网络连接失败,稍后重试', err)
+        }
+
       })
     }
   }
