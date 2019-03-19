@@ -1,8 +1,8 @@
 const routerApi = require('./router')
 const bodyParser = require('body-parser') // post 数据是需要
-var fs = require('fs')
-var express = require('express')
-var multer = require('multer')
+const fs = require('fs')
+const express = require('express')
+const multer = require('multer')
 const app = express()
 const upload = multer({ dest: 'upload/' })
 

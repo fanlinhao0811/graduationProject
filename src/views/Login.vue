@@ -5,11 +5,14 @@
       <div class="container">
         <div class="input-name">
           <div class="label">账号</div>
-          <input type="text" placeholder="请输入您的账号" v-model="xx">
+          <input type="text" placeholder="请输入您的账号" v-model="xx" class="ipt">
         </div>
         <div class="input-password">
           <div class="label">密码</div>
-          <input type="password" placeholder="请输入您的密码" v-model="pwd">
+          <input type="password" placeholder="请输入您的密码" v-model="pwd" class="ipt">
+        </div>
+        <div class="tip">
+          <input type="checkbox" checked class="rempsw-input">记住密码
         </div>
         <div class="btn" @click="login" :style="{ backgroundColor: pwd === ''? 'rgb(219,219,219)' : 'rgb(113,113,113)'}">
           登录
@@ -27,6 +30,7 @@
 import axios from 'axios'
 import toast from '../components/toast/index.js'
 import { mapState } from 'vuex'
+import Cookies from 'js-cookie'
 export default {
   name: 'login',
   data () {
@@ -54,7 +58,6 @@ export default {
     login () {
       if (!this.xx || !this.pwd) {
         toast('请输入账号密码！')
-        return
       }
       axios.get('/api/login', {
         params: { name: this.xx, pwd: this.pwd }
@@ -64,16 +67,11 @@ export default {
         } else {
           toast('登陆成功')
           this.$store.commit('login', res.data[0])
+          if (document.querySelector('.rempsw-input').checked === true) {
+            Cookies.set('info', res.data[0], { expires: 7 })
+          }
           this.$router.push({ path: '/' })
         }
-      })
-      // document.cookie = 'isLogin=true'
-    },
-    setValue () {
-      axios.post('/api/setValue', {
-        name: this.xx
-      }).then((res) => {
-        console.log('res', res)
       })
     },
     newUser () {
@@ -113,7 +111,7 @@ export default {
     font-size: 24px;
     color: #999999;
   }
-  input{
+  .ipt{
     background:none;
     outline:none;
     -webkit-appearance: none;
@@ -123,6 +121,13 @@ export default {
     border: 0;
     border-left: 1px solid rgb(219,219,219);
     padding-left: 20px;
+  }
+  .rempsw-input{
+    vertical-align: bottom;
+  }
+  .tip{
+    margin-top: 10px;
+    font-size: 0.2rem;
   }
   .btn{
     width: 50%;
