@@ -74,9 +74,10 @@ module.exports = {
   newMoment (req, res, next) {
     var moment = req.body.moment
     var userId = req.body.user_id
+    var monentImg = req.body.monent_img
     pool.getConnection((err, connection) => {
       var sql = sqlMap.newMoment
-      connection.query(sql, [moment, userId], (err, result) => {
+      connection.query(sql, [moment, userId, monentImg], (err, result) => {
         res.json(result)
         connection.release()
       })

@@ -13,14 +13,13 @@
       <input type="submit" value="提交">
     </form> -->
     <el-upload
-      class="upload-demo"
+      class="avatar-uploader"
       action="http://s.hangray.com:18040/resource/images"
-      :on-preview="handlePreview"
-      :on-remove="handleRemove"
-      :file-list="fileList2"
-      list-type="picture">
-      <el-button size="small" type="primary">点击上传</el-button>
-      <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+      :show-file-list="false"
+      :on-success="handleAvatarSuccess"
+      :before-upload="beforeAvatarUpload">
+      <img v-if="imageUrl" :src="imageUrl" class="avatar">
+      <i v-else class="el-icon-plus avatar-uploader-icon"></i>
     </el-upload>
     <!-- <input type="file" name="image" accept=“image/*” id='upload' @change='handleInputChange()'> -->
     <mfooter bgColor="rgb(121, 85, 72)"></mfooter>
@@ -42,7 +41,7 @@ export default {
       showConform: '',
       conformMsg: '',
       moment: '',
-      fileList2: []
+      imageUrl: ''
     }
   },
   components: {
@@ -74,16 +73,26 @@ export default {
       this.showConform = false
       axios.post('/api/newMoment', {
         moment: this.moment,
-        user_id: this.info.id
+        user_id: this.info.id,
+        monent_img: this.imageUrl
       }).then((res) => {
         console.log('res', res)
       })
     },
-    handleRemove (file, fileList) {
-      console.log(file, fileList)
+    handleAvatarSuccess (res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw)
     },
-    handlePreview (file) {
-      console.log(file)
+    beforeAvatarUpload (file) {
+      const isJPG = file.type === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isJPG && isLt2M
     },
     handleInputChange () {
       var form = document.getElementById('upload')
@@ -149,5 +158,28 @@ export default {
     width: 100%;
     height: 7rem;
     border: none;
+  }
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
   }
 </style>
