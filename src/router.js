@@ -59,6 +59,12 @@ export default new Router({
           name: 'test'
         }
       ]
+    },
+    {
+      // 管理员登陆
+      path: '/adminLogin',
+      name: 'adminLogin',
+      component: () => import('./views/AdminLogin.vue')
     }
   ]
 })
