@@ -23,8 +23,7 @@
           v-model="loginForm.password"
           name="password"
           auto-complete="on"
-          placeholder="密码"
-          @keyup.enter.native="handleLogin"/>
+          placeholder="密码"/>
         <span class="show-pwd" @click="showPwd">
         </span>
       </el-form-item>
