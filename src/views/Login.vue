@@ -58,6 +58,7 @@ export default {
     login () {
       if (!this.xx || !this.pwd) {
         toast('请输入账号密码！')
+        return
       }
       axios.get('/api/login', {
         params: { name: this.xx, pwd: this.pwd }

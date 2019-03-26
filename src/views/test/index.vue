@@ -5,9 +5,14 @@
 </template>
 
 <script>
-
+import Cookies from 'js-cookie'
 export default {
-  name: 'ErrorLog'
+  name: 'ErrorLog',
+  created: function () {
+    if (!Cookies.get('user')) {
+      this.$router.push({ path: '/adminLogin' })
+    }
+  }
 }
 </script>
 

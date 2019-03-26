@@ -1,34 +1,22 @@
 <template>
   <div class="login-container">
     <el-form
-      ref="loginForm"
-      :model="loginForm"
-      :rules="loginRules"
-      auto-complete="on"
       label-position="left"
       label-width="0px"
       class="card-box login-form">
       <h3 class="title">welcome to moment</h3>
-      <el-form-item prop="email">
-        <span class="svg-container">
-          <svg-icon icon-class="email" />
-        </span>
-        <el-input v-model="loginForm.email" name="email" type="text" auto-complete="on" placeholder="邮箱"/>
+      <el-form-item>
+        <el-input v-model="name" name="email" type="text" placeholder="邮箱"/>
       </el-form-item>
-      <el-form-item prop="password">
-        <span class="svg-container">
-        </span>
+      <el-form-item >
         <el-input
-          :type="passwordType"
-          v-model="loginForm.password"
+          v-model="password"
+          show-password
           name="password"
-          auto-complete="on"
           placeholder="密码"/>
-        <span class="show-pwd" @click="showPwd">
-        </span>
       </el-form-item>
       <el-form-item>
-        <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
+        <el-button type="primary" style="width:100%;" @click.native.prevent="handleLogin">
           登录
         </el-button>
       </el-form-item>
@@ -37,56 +25,33 @@
 </template>
 
 <script>
+import axios from 'axios'
+import toast from '../components/toast/index.js'
+import Cookies from 'js-cookie'
 
 export default {
   name: 'AdminLogin',
   data () {
-    const validateEmail = (rule, value, callback) => {
-      callback()
-    }
-    const validatePass = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('密码不能小于6位'))
-      } else {
-        callback()
-      }
-    }
     return {
-      loginForm: {
-        email: '',
-        password: ''
-      },
-      loginRules: {
-        email: [{ required: true, trigger: 'blur', validator: validateEmail }],
-        password: [{ required: true, trigger: 'blur', validator: validatePass }]
-      },
-      loading: false,
-      showDialog: false,
-      passwordType: 'password'
+      name: '',
+      password: ''
     }
   },
   methods: {
-    showPwd () {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
-      } else {
-        this.passwordType = 'password'
-      }
-    },
     handleLogin () {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('LoginByEmail', this.loginForm).then(() => {
-            this.loading = false
-            this.showDialog = true
-          }).catch(err => {
-            console.log(err)
-            this.loading = false
-          })
+      if (!this.name || !this.password) {
+        toast('请输入账号密码！')
+        return
+      }
+      axios.get('/api/login', {
+        params: { name: this.name, pwd: this.password }
+      }).then((res) => {
+        if (typeof res.data === 'string') {
+          toast(res.data)
         } else {
-          console.log('error submit!!')
-          return false
+          toast('登陆成功')
+          Cookies.set('user', res.data[0].name, { expires: 7 })
+          this.$router.push({ path: '/admin/index' })
         }
       })
     }
@@ -117,19 +82,6 @@ export default {
     height: 47px;
     width: 85%;
   }
-  .show-pwd {
-    position: absolute;
-    right: 10px;
-    top: 7px;
-    font-size: 16px;
-    color: #889aa4;
-    cursor: pointer;
-    user-select: none;
-  }
-  .svg-container {
-    padding: 6px 5px 6px 15px;
-    color: #889aa4;
-  }
   .title {
     font-size: 26px;
     font-weight: 400;
@@ -151,9 +103,6 @@ export default {
     background: rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     color: #454545;
-  }
-  .forget-pwd {
-    color: #fff;
   }
 }
 </style>
