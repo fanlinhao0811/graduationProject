@@ -26,8 +26,7 @@ export default {
       type: Array,
       default: function () {
         return []
-      },
-      require: true
+      }
     }
   },
   methods: {
