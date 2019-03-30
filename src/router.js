@@ -55,8 +55,8 @@ export default new Router({
       children: [
         {
           path: 'index',
-          component: () => import('@/views/test/index'),
-          name: 'test'
+          component: () => import('@/views/admin/index'),
+          name: 'adminIndex'
         }
       ]
     },

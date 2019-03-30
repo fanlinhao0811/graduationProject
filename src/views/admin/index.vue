@@ -11,7 +11,7 @@ import Cookies from 'js-cookie'
 import echarts from 'echarts'
 import LineChart from '../../components/Line'
 export default {
-  name: 'ErrorLog',
+  name: 'adminIndex',
   components: { LineChart },
   created: function () {
     if (!Cookies.get('user')) {
@@ -33,14 +33,34 @@ export default {
     drawLine () {
       let myChart = echarts.init(document.getElementById('myChart'))
       myChart.setOption({
-        series: {
-          type: 'pie',
-          data: [
-            { name: 'A', value: 1212 },
-            { name: 'B', value: 2323 },
-            { name: 'C', value: 1919 }
-          ]
-        }
+        xAxis: {
+          data: ['a', 'b', 'c', 'd'],
+          axisTick: { show: false },
+          axisLabel: {
+            formatter: 'barGap: \'-100%\''
+          }
+        },
+        yAxis: {
+          splitLine: { show: false }
+        },
+        animationDurationUpdate: 1200,
+        series: [{
+          type: 'bar',
+          itemStyle: {
+            normal: {
+              color: '#ddd'
+            }
+          },
+          silent: true,
+          barWidth: 40,
+          barGap: '-100%', // Make series be overlap
+          data: [60, 60, 60, 60]
+        }, {
+          type: 'bar',
+          barWidth: 40,
+          z: 10,
+          data: [45, 60, 13, 25]
+        }]
       })
     }
   }

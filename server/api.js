@@ -82,5 +82,16 @@ module.exports = {
         connection.release()
       })
     })
+  },
+  // admin
+  getInfo (req, res, next) {
+    var name = req.query.name
+    pool.getConnection((err, connection) => {
+      var sql = sqlMap.getInfo
+      connection.query(sql, [name], (err, result) => {
+        res.json(result)
+        connection.release()
+      })
+    })
   }
 }

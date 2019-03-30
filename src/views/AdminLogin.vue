@@ -37,6 +37,18 @@ export default {
       password: ''
     }
   },
+  created: function () {
+    if (Cookies.get('user')) {
+      axios.get('/api/getInfo', {
+        params: { name: Cookies.get('user') }
+      }).then(
+        (res) => {
+          console.log(res.data[0])
+        }
+      )
+      // this.$router.push({ path: '/admin/index' })
+    }
+  },
   methods: {
     handleLogin () {
       if (!this.name || !this.password) {
