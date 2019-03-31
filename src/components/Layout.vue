@@ -39,7 +39,27 @@
       <div class="navbar">
         <hamburger :toggle-click="toggleSideBar" :is-active="active" class="hamburger-container"/>
         <div class="right-menu">
-          <span>{{name}}</span>
+          <el-dropdown class="avatar-container" trigger="click">
+            <div class="avatar-wrapper">
+              <span>{{name}}</span>
+              <i class="el-icon-caret-bottom"></i>
+            </div>
+            <el-dropdown-menu slot="dropdown">
+              <router-link to="/">
+                <el-dropdown-item>
+                  首页
+                </el-dropdown-item>
+              </router-link>
+              <router-link class="inlineBlock" to="/">
+                <el-dropdown-item>
+                  设置
+                </el-dropdown-item>
+              </router-link>
+              <el-dropdown-item divided>
+                <span style="display:block;" @click="logout">退出登录</span>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </div>
       </div>
       <router-view></router-view>
@@ -50,6 +70,7 @@
 <script>
 import Hamburger from '@/components/Hamburger'
 import { mapState } from 'vuex'
+import Cookies from 'js-cookie'
 
 export default {
   components: {
@@ -68,12 +89,19 @@ export default {
     toggleSideBar () {
       this.isCollapse = !this.isCollapse
       this.active = !this.active
+    },
+    logout () {
+      Cookies.remove('user')
+      this.$router.push({ path: '/adminLogin' })
     }
   }
 }
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
+  a{
+    text-decoration: none;
+  }
   .wrapper{
     display: flex;
     min-height: 100vh;
@@ -116,4 +144,21 @@ export default {
     }
   }
 }
+ .avatar-container {
+      margin-right: 60px;
+
+      .avatar-wrapper {
+        margin-top: 5px;
+        position: relative;
+        cursor: pointer;
+
+        .el-icon-caret-bottom {
+          cursor: pointer;
+          position: absolute;
+          right: -20px;
+          top: 22px;
+          font-size: 14px;
+        }
+      }
+    }
 </style>

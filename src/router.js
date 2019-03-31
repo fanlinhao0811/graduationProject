@@ -65,6 +65,11 @@ export default new Router({
       path: '/adminLogin',
       name: 'adminLogin',
       component: () => import('./views/AdminLogin.vue')
+    },
+    {
+      path: '/401',
+      name: '401',
+      component: () => import('./views/error/401.vue')
     }
   ]
 })

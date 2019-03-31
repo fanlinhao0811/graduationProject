@@ -43,10 +43,10 @@ export default {
         params: { name: Cookies.get('user') }
       }).then(
         (res) => {
-          console.log(res.data[0])
+          this.$store.commit('login', res.data[0])
         }
       )
-      // this.$router.push({ path: '/admin/index' })
+      this.$router.push({ path: '/admin/index' })
     }
   },
   methods: {

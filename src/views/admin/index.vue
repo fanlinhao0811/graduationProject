@@ -2,6 +2,7 @@
   <div>
     qqqqqq
     <div id="myChart" :style="{width: '300px', height: '300px'}"></div>
+    <div @click="drawLine()">change</div>
     <line-chart :list-data="listData"/>
   </div>
 </template>
@@ -13,13 +14,27 @@ import LineChart from '../../components/Line'
 export default {
   name: 'adminIndex',
   components: { LineChart },
+  data () {
+    return {
+      option: {
+        xAxis: {
+          type: 'category',
+          data: []
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [{
+          data: [],
+          type: 'line'
+        }]
+      }
+    }
+  },
   created: function () {
     if (!Cookies.get('user')) {
       this.$router.push({ path: '/adminLogin' })
     }
-  },
-  mounted () {
-    this.drawLine()
   },
   props: {
     listData: {
@@ -32,36 +47,9 @@ export default {
   methods: {
     drawLine () {
       let myChart = echarts.init(document.getElementById('myChart'))
-      myChart.setOption({
-        xAxis: {
-          data: ['a', 'b', 'c', 'd'],
-          axisTick: { show: false },
-          axisLabel: {
-            formatter: 'barGap: \'-100%\''
-          }
-        },
-        yAxis: {
-          splitLine: { show: false }
-        },
-        animationDurationUpdate: 1200,
-        series: [{
-          type: 'bar',
-          itemStyle: {
-            normal: {
-              color: '#ddd'
-            }
-          },
-          silent: true,
-          barWidth: 40,
-          barGap: '-100%', // Make series be overlap
-          data: [60, 60, 60, 60]
-        }, {
-          type: 'bar',
-          barWidth: 40,
-          z: 10,
-          data: [45, 60, 13, 25]
-        }]
-      })
+      this.option.xAxis.data = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      this.option.series[0].data = [820, 932, 901, 934, 1290, 1330, 1320]
+      myChart.setOption(this.option)
     }
   }
 }
