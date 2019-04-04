@@ -1,7 +1,7 @@
 <template>
   <div class="errPage">
     <div class="errPage-container">
-        404
+      404
     </div>
   </div>
 </template>
