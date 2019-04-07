@@ -7,17 +7,8 @@
 </template>
 
 <script>
-import errGif from '@/assets/401.gif'
-import ewizardClap from '@/assets/gifs/wizard_clap.gif'
 
 export default {
-  data () {
-    return {
-      errGif: errGif + '?' + +new Date(),
-      ewizardClap,
-      dialogVisible: false
-    }
-  },
   methods: {
     back () {
       this.$router.go(-1)
