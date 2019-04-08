@@ -40,6 +40,16 @@ export default {
     }
   },
   created () {
+    if (Cookies.get('user')) {
+      axios.get('/api/getInfo', {
+        params: { name: Cookies.get('user') }
+      }).then(
+        (res) => {
+          this.$store.commit('login', res.data[0])
+        }
+      )
+      this.$router.push({ path: '/' })
+    }
     if (this.$store.state.isLogin) {
       this.xx = this.$store.state.info.name
       // console.log(this.$store.getters.doneTodosCount)
@@ -69,7 +79,7 @@ export default {
           toast('登陆成功')
           this.$store.commit('login', res.data[0])
           if (document.querySelector('.rempsw-input').checked === true) {
-            Cookies.set('info', res.data[0], { expires: 7 })
+            Cookies.set('user', res.data[0].name, { expires: 7 })
           }
           this.$router.push({ path: '/' })
         }

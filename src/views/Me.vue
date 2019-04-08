@@ -11,8 +11,8 @@
         <img src="https://wpimg.wallstcn.com/ed378f0d-3c05-4efa-a36e-c94c41b5f360" alt="">
       </div>
       <div class="my-page-contain">
-        <p>{{xx}}</p>
-        <p>简介：{{xx}}</p>
+        <p>{{info.name}}</p>
+        <p>简介：{{info.desc}}</p>
       </div>
     </div>
     <div class="my-time">
@@ -36,6 +36,7 @@
 <script>
 import axios from 'axios'
 import toast from '../components/toast/index.js'
+import Cookies from 'js-cookie'
 import { mapState } from 'vuex'
 import mfooter from '../components/Footer'
 export default {
@@ -51,36 +52,34 @@ export default {
     mfooter
   },
   created () {
+    if (Cookies.get('user')) {
+      axios.get('/api/getInfo', {
+        params: { name: Cookies.get('user') }
+      }).then(
+        (res) => {
+          this.$store.commit('login', res.data[0])
+        }
+      )
+    } else {
+      this.$router.push({ path: '/login' })
+    }
     if (this.$store.state.isLogin) {
       this.xx = this.$store.state.name
     } else {
       this.$router.push({ path: '/home' })
     }
   },
-  //   computed: {
-  //     isLogin () {
-  //       return this.$store.state.isLogin
-  //     }
-  //   },
   computed: mapState({
     isLogin: state => state.isLogin,
-    name: state => state.name
+    info: state => state.info
   }),
   methods: {
-    login () {
-      console.log(this.xx)
-      toast('请输入账号密码！')
-      //   this.$store.state.isLogin = this.xx
-      this.$store.commit('login', this.xx)
-      document.cookie = 'isLogin=true'
-    //   console.log(this.$store.state.isLogin)
-    //   alert('请输入账号密码！')
-    },
     setValue () {
       axios.post('/api/setValue', {
         name: this.xx
       }).then((res) => {
         console.log('res', res)
+        toast(11)
       })
     },
     newUser () {
