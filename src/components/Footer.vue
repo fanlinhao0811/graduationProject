@@ -27,6 +27,7 @@ export default {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    font-size: 0.4rem;
     }
   .footer div a{
     text-decoration: none;

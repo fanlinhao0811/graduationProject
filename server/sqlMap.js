@@ -5,6 +5,7 @@ var sqlMap = {
   login: 'SELECT * FROM user WHERE name = ? AND pwd = ? ',
   beforeLogin: 'SELECT * FROM user WHERE name = ?',
   newMoment: 'INSERT INTO user_moment SET moment= ? , user_id = ?, monent_img = ?',
+  moment: 'SELECT * FROM user_moment',
   getInfo: 'SELECT * FROM user WHERE name = ?'
 }
 

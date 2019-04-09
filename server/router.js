@@ -24,6 +24,11 @@ router.post('/newMoment', (req, res, next) => {
   api.newMoment(req, res, next)
 })
 
+// 获取moment
+router.get('/moment', (req, res, next) => {
+  api.moment(req, res, next)
+})
+
 // 通过用户名获取信息
 router.get('/getInfo', (req, res, next) => {
   api.getInfo(req, res, next)

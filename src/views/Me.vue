@@ -21,11 +21,11 @@
         <p>时刻</p>
       </div>
       <div>
-        <p>11</p>
+        <p>{{info.follow}}</p>
         <p>关注</p>
       </div>
       <div>
-        <p>11</p>
+        <p>{{info.fans}}</p>
         <p>粉丝</p>
       </div>
     </div>

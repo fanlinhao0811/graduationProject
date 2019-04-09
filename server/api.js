@@ -83,6 +83,17 @@ module.exports = {
       })
     })
   },
+
+  moment (req, res, next) {
+    pool.getConnection((err, connection) => {
+      var sql = sqlMap.moment
+      connection.query(sql, [], (err, result) => {
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
+
   // admin
   getInfo (req, res, next) {
     var name = req.query.name

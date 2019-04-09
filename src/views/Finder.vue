@@ -1,42 +1,42 @@
 
 <template>
-    <div class="login">
-        <div class="container">
-            <div>finder</div>
-        </div>
+  <div class="finder">
+    <div class="container">
+      <div>finder</div>
+      <mfooter bgColor="rgb(121, 85, 72)"></mfooter>
     </div>
+  </div>
 </template>
 
 <script>
+import mfooter from '../components/Footer'
 import axios from 'axios'
 import toast from '../components/toast/index.js'
-import { mapState } from 'vuex'
 export default {
   name: 'blog',
   data () {
     return {
-      inpContent: '',
-      xx: '',
-      pwd: ''
+      tempList: [],
+      list: []
     }
+  },
+  components: {
+    mfooter
   },
   created () {
-    if (this.$store.state.isLogin) {
-      this.xx = this.$store.state.name
-      console.log(this.$store.getters.doneTodosCount)
-    //   this.$router.push({ path: '/' })
-    }
+    axios.get('/api/moment').then((res) => {
+      this.list = res.data
+      console.log(this.list)
+    })
   },
-  //   computed: {
-  //     isLogin () {
-  //       return this.$store.state.isLogin
-  //     }
-  //   },
-  computed: mapState({
-    isLogin: state => state.isLogin,
-    name: state => state.name
-  }),
   methods: {
+    compare (property) {
+      return function (obj1, obj2) {
+        var value1 = obj1[property]
+        var value2 = obj2[property]
+        return value2 - value1
+      }
+    },
     login () {
       console.log(this.xx)
       toast('请输入账号密码！')
