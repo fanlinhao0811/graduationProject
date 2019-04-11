@@ -34,4 +34,8 @@ router.get('/getInfo', (req, res, next) => {
   api.getInfo(req, res, next)
 })
 
+router.get('/adminUser', (req, res, next) => {
+  api.adminUser(req, res, next)
+})
+
 module.exports = router

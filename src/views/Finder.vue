@@ -6,13 +6,23 @@
       <div class="item" v-for="(item,index) in list" :key="index">
         <img :src="item.monent_img || `http://image.wufazhuce.com/FqOWy_yCMK1PGdYioZW8bN52UO96`" alt="">
         <p>{{item.moment}}</p>
-        <p>{{item.id}}</p>
+        <p @click="dialogVisible = true">{{item.user_name}}</p>
         <div class="item-footer">
           <div class="share">11</div>
           <div class="like">22</div>
         </div>
       </div>
       <mfooter bgColor="rgb(121, 85, 72)"></mfooter>
+      <el-dialog
+        :visible.sync="dialogVisible"
+        width="80%"
+        :before-close="handleClose">
+        <span>这是一段信息</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -25,6 +35,7 @@ export default {
   name: 'blog',
   data () {
     return {
+      dialogVisible: false,
       tempList: [],
       list: []
     }
@@ -39,6 +50,9 @@ export default {
     })
   },
   methods: {
+    handleClose (done) {
+      done()
+    }
   }
 }
 </script>

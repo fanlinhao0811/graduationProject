@@ -57,6 +57,11 @@ export default new Router({
           path: 'index',
           component: () => import('@/views/admin/index'),
           name: 'adminIndex'
+        },
+        {
+          path: 'user',
+          component: () => import('@/views/admin/user'),
+          name: 'user'
         }
       ]
     },

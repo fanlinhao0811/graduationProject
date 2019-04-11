@@ -74,6 +74,7 @@ export default {
       axios.post('/api/newMoment', {
         moment: this.moment,
         user_id: this.info.id,
+        user_name: this.info.name,
         monent_img: this.imageUrl
       }).then((res) => {
         console.log('res', res)
