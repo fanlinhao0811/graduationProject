@@ -2,11 +2,23 @@
 <template>
   <div class="finder">
     <div class="container">
-      <div class="banner"></div>
+      <div class="banner">
+          <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <img src="http://seopic.699pic.com/photo/50087/5186.jpg_wh1200.jpg" alt="">
+      </div>
+      <div class="swiper-slide">
+        <img src="http://seopic.699pic.com/photo/50087/5186.jpg_wh1200.jpg" alt="">
+      </div>
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+      </div>
       <div class="item" v-for="(item,index) in list" :key="index">
         <img :src="item.monent_img || `http://image.wufazhuce.com/FqOWy_yCMK1PGdYioZW8bN52UO96`" alt="">
         <p>{{item.moment}}</p>
-        <p @click="dialogVisible = true">{{item.user_name}}</p>
+        <p @click="dialogVisible = true">--{{item.user_name}}</p>
         <div class="item-footer">
           <div class="share">11</div>
           <div class="like">22</div>
@@ -30,6 +42,8 @@
 <script>
 import mfooter from '../components/Footer'
 import axios from 'axios'
+import 'swiper/dist/css/swiper.css'
+import Swiper from 'swiper/dist/js/swiper'
 // import toast from '../components/toast/index.js'
 export default {
   name: 'blog',
@@ -47,6 +61,15 @@ export default {
     axios.get('/api/moment').then((res) => {
       this.list = res.data.reverse()
       console.log(this.list)
+    })
+    /* eslint-disable no-new */
+    this.$nextTick(() => {
+      new Swiper('.swiper-container', {
+        autoplay: true,
+        loop: true,
+        observer: true, // 修改swiper自己或子元素时，自动初始化swiper
+        observeParents: true// 修改swiper的父元素时，自动初始化swiper
+      })
     })
   },
   methods: {
@@ -85,5 +108,11 @@ export default {
   margin-left: 5%;
   display: flex;
   justify-content: space-between;
+}
+.swiper-container{
+  width: 100%;
+}
+.swiper-container .swiper-slide img{
+  width: 100%;
 }
 </style>
