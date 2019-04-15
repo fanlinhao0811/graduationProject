@@ -33,6 +33,10 @@ export default new Router({
       component: () => import('./views/Me.vue')
     },
     {
+      path: '/user/:id',
+      component: () => import('./views/User.vue')
+    },
+    {
       // 登陆
       path: '/login',
       name: 'login',

@@ -31,6 +31,7 @@
 import axios from 'axios'
 // import toast from '../components/toast/index.js'
 import { mapState } from 'vuex'
+import Cookies from 'js-cookie'
 import mfooter from '../components/Footer'
 import conform from '../components/Conform'
 import $ from 'jquery'
@@ -49,7 +50,15 @@ export default {
     conform
   },
   created () {
-    if (!this.isLogin) {
+    if (Cookies.get('user')) {
+      axios.get('/api/getInfo', {
+        params: { name: Cookies.get('user') }
+      }).then(
+        (res) => {
+          this.$store.commit('login', res.data[0])
+        }
+      )
+    } else {
       this.$router.push({ path: '/login' })
     }
   },
