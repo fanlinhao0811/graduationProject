@@ -95,6 +95,17 @@ module.exports = {
     })
   },
 
+  user (req, res, next) {
+    var id = req.query.id
+    pool.getConnection((err, connection) => {
+      var sql = sqlMap.user
+      connection.query(sql, [id, id, id], (err, result) => {
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
+
   // admin
   getInfo (req, res, next) {
     var name = req.query.name

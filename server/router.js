@@ -34,6 +34,11 @@ router.get('/getInfo', (req, res, next) => {
   api.getInfo(req, res, next)
 })
 
+// 点击跳到用户信息
+router.get('/user', (req, res, next) => {
+  api.user(req, res, next)
+})
+
 router.get('/adminUser', (req, res, next) => {
   api.adminUser(req, res, next)
 })

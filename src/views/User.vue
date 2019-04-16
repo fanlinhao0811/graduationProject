@@ -50,16 +50,16 @@ export default {
   },
   created () {
     if (Cookies.get('user')) {
-      axios.get('/api/getInfo', {
-        params: { name: Cookies.get('user') }
+      axios.get('/api/user', {
+        params: { id: this.$route.params.id }
       }).then(
         (res) => {
+          console.log(res)
         }
       )
     } else {
       this.$router.push({ path: '/login' })
     }
-    console.log(this.$route.params.id)
   },
   methods: {
   }
