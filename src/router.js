@@ -33,7 +33,7 @@ export default new Router({
       component: () => import('./views/Me.vue')
     },
     {
-      path: '/user/:id',
+      path: '/user/:name',
       component: () => import('./views/User.vue')
     },
     {

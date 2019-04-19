@@ -95,11 +95,42 @@ module.exports = {
     })
   },
 
-  user (req, res, next) {
-    var id = req.query.id
+  // user (req, res, next) {
+  //   var name = req.query.name
+  //   pool.getConnection((err, connection) => {
+  //     var sql = sqlMap.user
+  //     connection.query(sql, [name, name], (err, result) => {
+  //       res.json(result)
+  //       connection.release()
+  //     })
+  //   })
+  // },
+
+  getShortInfo (req, res, next) {
+    var name = req.query.name
     pool.getConnection((err, connection) => {
-      var sql = sqlMap.user
-      connection.query(sql, [id, id, id], (err, result) => {
+      var sql = sqlMap.getShortInfo
+      connection.query(sql, [name], (err, result) => {
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
+  userMomentCount (req, res, next) {
+    var name = req.query.name
+    pool.getConnection((err, connection) => {
+      var sql = sqlMap.userMomentCount
+      connection.query(sql, [name], (err, result) => {
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
+  userFollowed (req, res, next) {
+    var name = req.query.name
+    pool.getConnection((err, connection) => {
+      var sql = sqlMap.userFollowed
+      connection.query(sql, [name], (err, result) => {
         res.json(result)
         connection.release()
       })

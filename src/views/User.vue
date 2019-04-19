@@ -1,30 +1,25 @@
 
 <template>
-  <div class="me">
+  <div class="me" v-if="info">
     <header>
-      <div><img src="../assets/images/me/settings.png" alt=""></div>
-      <div>xxx</div>
-      <div><img src="../assets/images/me/plus.png" alt=""></div>
+      <img src="../assets/images/back.png" alt="" @click="$router.go(-1)">
     </header>
     <div class="my-page">
       <div class="my-page-img">
-        <img src="https://wpimg.wallstcn.com/ed378f0d-3c05-4efa-a36e-c94c41b5f360" alt="">
+        <img :src="this.info[0].data[0].img" alt="">
       </div>
       <div class="my-page-contain">
-        <p></p>
-        <p>简介：</p>
+        <p>{{ this.info[0].data[0].name }}</p>
+        <p>简介：{{ this.info[0].data[0].desc }}</p>
       </div>
     </div>
     <div class="my-time">
       <div>
-        <p>11</p>
+        <p>{{ this.info[1].data[0].userMomentCount }}</p>
         <p>时刻</p>
       </div>
       <div>
-        <p></p>
-        <p>关注</p>
-      </div>
-      <div>
+        <p>{{ this.info[2].data[0].follow }}</p>
         <p>粉丝</p>
       </div>
     </div>
@@ -40,28 +35,42 @@ export default {
   name: 'me',
   data () {
     return {
-      inpContent: '',
-      xx: '',
-      pwd: ''
+      info: null
     }
   },
   components: {
     mfooter
   },
   created () {
-    if (Cookies.get('user')) {
-      axios.get('/api/user', {
-        params: { id: this.$route.params.id }
-      }).then(
-        (res) => {
-          console.log(res)
-        }
-      )
-    } else {
-      this.$router.push({ path: '/login' })
-    }
+    this.init()
   },
   methods: {
+    getShortInfo () {
+      return axios.get('/api/getShortInfo', {
+        params: { name: this.$route.params.name }
+      })
+    },
+    userMomentCount () {
+      return axios.get('/api/userMomentCount', {
+        params: { name: this.$route.params.name }
+      })
+    },
+    userFollowed () {
+      return axios.get('/api/userFollowed', {
+        params: { name: this.$route.params.name }
+      })
+    },
+    init () {
+      if (Cookies.get('user')) {
+        axios.all([this.getShortInfo(), this.userMomentCount(), this.userFollowed()]).then(
+          (res) => {
+            this.info = res
+          }
+        )
+      } else {
+        this.$router.push({ path: '/login' })
+      }
+    }
   }
 }
 </script>
@@ -72,25 +81,15 @@ export default {
     font-size: .33rem;
   }
   header{
-    display: flex;
     width: 100%;
     height: 50px;
     border-bottom: 1px solid #999;
-    justify-content: space-between;
-    align-items: center;
-  }
-  header div:nth-child(1){
-    width: 20%;
-  }
-  header div:nth-child(2){
-    width: 60%;
-  }
-  header div:nth-child(3){
-    width: 20%;
+    line-height: 50px;
   }
   header img{
     width: .48rem;
     vertical-align: middle;
+    margin-left: -80%;
   }
   .my-page{
     width: 100%;

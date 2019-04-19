@@ -35,8 +35,18 @@ router.get('/getInfo', (req, res, next) => {
 })
 
 // 点击跳到用户信息
-router.get('/user', (req, res, next) => {
-  api.user(req, res, next)
+// router.get('/user', (req, res, next) => {
+//   api.user(req, res, next)
+// })
+
+router.get('/getShortInfo', (req, res, next) => {
+  api.getShortInfo(req, res, next)
+})
+router.get('/userMomentCount', (req, res, next) => {
+  api.userMomentCount(req, res, next)
+})
+router.get('/userFollowed', (req, res, next) => {
+  api.userFollowed(req, res, next)
 })
 
 router.get('/adminUser', (req, res, next) => {
