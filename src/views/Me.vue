@@ -1,6 +1,6 @@
 
 <template>
-  <div class="me">
+  <div class="me" v-if="infon">
     <header>
       <div><img src="../assets/images/me/settings.png" alt=""></div>
       <div>个人主页</div>
@@ -8,26 +8,31 @@
     </header>
     <div class="my-page">
       <div class="my-page-img">
-        <img src="https://wpimg.wallstcn.com/ed378f0d-3c05-4efa-a36e-c94c41b5f360" alt="">
+        <img :src="infon[0].data[0].img" alt="">
       </div>
       <div class="my-page-contain">
-        <p>{{info.name}}</p>
-        <p>简介：{{info.desc}}</p>
+        <p>{{ infon[0].data[0].name }}</p>
+        <p>简介：{{ infon[0].data[0].desc }}</p>
       </div>
     </div>
     <div class="my-time">
       <div>
-        <p>11</p>
+        <p>{{ infon[1].data.length }}</p>
         <p>时刻</p>
       </div>
       <div>
-        <p>{{info.follow}}</p>
+        <p>{{ infon[3].data.length }}</p>
         <p>关注</p>
       </div>
       <div>
-        <p>{{info.fans}}</p>
+        <p>{{ infon[2].data.length }}</p>
         <p>粉丝</p>
       </div>
+    </div>
+    <div class="item">
+      <p>最新时刻</p>
+      <p>{{infon[1].data[0].moment}}</p>
+      <img :src="infon[1].data[0].monent_img" alt="">
     </div>
     <mfooter bgColor="rgb(121, 85, 72)"></mfooter>
   </div>
@@ -35,7 +40,7 @@
 
 <script>
 import axios from 'axios'
-import toast from '../components/toast/index.js'
+// import toast from '../components/toast/index.js'
 import Cookies from 'js-cookie'
 import { mapState } from 'vuex'
 import mfooter from '../components/Footer'
@@ -43,9 +48,7 @@ export default {
   name: 'me',
   data () {
     return {
-      inpContent: '',
-      xx: '',
-      pwd: ''
+      infon: null
     }
   },
   components: {
@@ -53,6 +56,7 @@ export default {
   },
   created () {
     if (Cookies.get('user')) {
+      this.init()
       axios.get('/api/getInfo', {
         params: { name: Cookies.get('user') }
       }).then(
@@ -63,31 +67,43 @@ export default {
     } else {
       this.$router.push({ path: '/login' })
     }
-    if (this.$store.state.isLogin) {
-      this.xx = this.$store.state.name
-    } else {
-      this.$router.push({ path: '/home' })
-    }
+    // if (this.$store.state.isLogin) {
+    //   this.xx = this.$store.state.name
+    // } else {
+    //   this.$router.push({ path: '/home' })
+    // }
   },
   computed: mapState({
     isLogin: state => state.isLogin,
     info: state => state.info
   }),
   methods: {
-    setValue () {
-      axios.post('/api/setValue', {
-        name: this.xx
-      }).then((res) => {
-        console.log('res', res)
-        toast(11)
+    getShortInfo () {
+      return axios.get('/api/getShortInfo', {
+        params: { name: Cookies.get('user') }
       })
     },
-    newUser () {
-      axios.post('/api/newUser', {
-        name: this.xx
-      }).then((res) => {
-        console.log('res', res)
+    userMoment () {
+      return axios.get('/api/userMoment', {
+        params: { name: Cookies.get('user') }
       })
+    },
+    userFol () {
+      return axios.get('/api/userFol', {
+        params: { name: Cookies.get('user') }
+      })
+    },
+    userFan () {
+      return axios.get('/api/userFan', {
+        params: { name: Cookies.get('user') }
+      })
+    },
+    init () {
+      axios.all([this.getShortInfo(), this.userMoment(), this.userFol(), this.userFan()]).then(
+        (res) => {
+          this.infon = res
+        }
+      )
     }
   }
 }
@@ -139,6 +155,9 @@ export default {
   .my-page-contain p{
     text-align: left;
   }
+  .my-page-contain p:nth-child(1){
+    font-weight: bold;
+  }
   .my-time{
     width: 100%;
     display: flex;
@@ -151,5 +170,18 @@ export default {
   }
   .my-time div p:nth-child(2){
     margin-top: 0;
+  }
+  .item p:nth-child(1){
+    text-align: left;
+    margin-left: 0.5rem;
+    font-weight: bold;
+  }
+  .item p:nth-child(2){
+    text-align: left;
+    margin-left: 0.5rem;
+  }
+  .item img{
+    width: 60%;
+    margin-left: -1.8rem;
   }
 </style>

@@ -45,8 +45,26 @@ router.get('/getShortInfo', (req, res, next) => {
 router.get('/userMomentCount', (req, res, next) => {
   api.userMomentCount(req, res, next)
 })
+router.get('/userMoment', (req, res, next) => {
+  api.userMoment(req, res, next)
+})
 router.get('/userFollowed', (req, res, next) => {
   api.userFollowed(req, res, next)
+})
+router.get('/userFol', (req, res, next) => {
+  api.userFol(req, res, next)
+})
+router.get('/userFan', (req, res, next) => {
+  api.userFan(req, res, next)
+})
+router.post('/flw', (req, res, next) => {
+  api.flw(req, res, next)
+})
+router.post('/cancelFlw', (req, res, next) => {
+  api.cancelFlw(req, res, next)
+})
+router.get('/isFollow', (req, res, next) => {
+  api.isFollow(req, res, next)
 })
 
 router.get('/adminUser', (req, res, next) => {

@@ -44,6 +44,7 @@ import mfooter from '../components/Footer'
 import axios from 'axios'
 import 'swiper/dist/css/swiper.css'
 import Swiper from 'swiper/dist/js/swiper'
+import Cookies from 'js-cookie'
 // import toast from '../components/toast/index.js'
 export default {
   name: 'blog',
@@ -80,7 +81,11 @@ export default {
       done()
     },
     linkto (hash) {
-      this.$router.push({ path: `/user/` + hash })
+      if (Cookies.get('user') === hash) {
+        this.$router.push({ name: 'me' })
+      } else {
+        this.$router.push({ path: `/user/` + hash })
+      }
     }
   }
 }

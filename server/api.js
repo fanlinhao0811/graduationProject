@@ -126,11 +126,80 @@ module.exports = {
       })
     })
   },
+  userMoment (req, res, next) {
+    var name = req.query.name
+    pool.getConnection((err, connection) => {
+      var sql = sqlMap.userMoment
+      connection.query(sql, [name], (err, result) => {
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
   userFollowed (req, res, next) {
     var name = req.query.name
     pool.getConnection((err, connection) => {
       var sql = sqlMap.userFollowed
       connection.query(sql, [name], (err, result) => {
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
+  userFol (req, res, next) {
+    var name = req.query.name
+    pool.getConnection((err, connection) => {
+      var sql = sqlMap.userFol
+      connection.query(sql, [name], (err, result) => {
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
+  userFan (req, res, next) {
+    var name = req.query.name
+    pool.getConnection((err, connection) => {
+      var sql = sqlMap.userFan
+      connection.query(sql, [name], (err, result) => {
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
+  flw (req, res, next) {
+    var userName = req.body.user_name
+    var followerName = req.body.follower_name
+    pool.getConnection((err, connection) => {
+      if (err) { throw err }
+      var sql = sqlMap.flw
+      connection.query(sql, [userName, followerName], (err, result) => {
+        if (err) { res.json(err) }
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
+  cancelFlw (req, res, next) {
+    var userName = req.body.user_name
+    var followerName = req.body.follower_name
+    pool.getConnection((err, connection) => {
+      if (err) { throw err }
+      var sql = sqlMap.cancelFlw
+      connection.query(sql, [userName, followerName], (err, result) => {
+        if (err) { res.json(err) }
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
+  isFollow (req, res, next) {
+    var userName = req.query.user_name
+    var followerName = req.query.follower_name
+    pool.getConnection((err, connection) => {
+      if (err) { throw err }
+      var sql = sqlMap.isFollow
+      connection.query(sql, [userName, followerName], (err, result) => {
+        if (err) { res.json(err) }
         res.json(result)
         connection.release()
       })

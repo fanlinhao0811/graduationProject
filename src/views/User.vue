@@ -6,16 +6,20 @@
     </header>
     <div class="my-page">
       <div class="my-page-img">
-        <img :src="this.info[0].data[0].img" alt="">
+        <img :src="info[0].data[0].img" alt="">
       </div>
-      <div class="my-page-contain">
-        <p>{{ this.info[0].data[0].name }}</p>
-        <p>简介：{{ this.info[0].data[0].desc }}</p>
+      <div class="page-contain">
+        <div class="page-contain-a">
+          <span>{{ info[0].data[0].name }}</span>
+          <el-button v-if="follow" type="primary" plain @click="flw">关注</el-button>
+          <el-button v-else type="success" plain @click="cancelFlw">已关注</el-button>
+        </div>
+        <p>简介：{{ info[0].data[0].desc }}</p>
       </div>
     </div>
     <div class="my-time">
       <div>
-        <p>{{ this.info[1].data[0].userMomentCount }}</p>
+        <p>{{ info[1].data[0].userMomentCount }}</p>
         <p>时刻</p>
       </div>
       <div>
@@ -35,7 +39,8 @@ export default {
   name: 'me',
   data () {
     return {
-      info: null
+      info: null,
+      follow: true
     }
   },
   components: {
@@ -60,16 +65,47 @@ export default {
         params: { name: this.$route.params.name }
       })
     },
+    isFollow () {
+      return axios.get('/api/isFollow', {
+        params: {
+          user_name: this.$route.params.name,
+          follower_name: Cookies.get('user')
+        }
+      })
+    },
     init () {
       if (Cookies.get('user')) {
-        axios.all([this.getShortInfo(), this.userMomentCount(), this.userFollowed()]).then(
+        axios.all([this.getShortInfo(), this.userMomentCount(), this.userFollowed(), this.isFollow()]).then(
           (res) => {
             this.info = res
+            if (this.info[3].data.length > 0) {
+              this.follow = false
+            }
           }
         )
       } else {
         this.$router.push({ path: '/login' })
       }
+    },
+    flw () {
+      axios.post('/api/flw', {
+        user_name: this.$route.params.name,
+        follower_name: Cookies.get('user')
+      }).then((res) => {
+        this.follow = false
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
+    cancelFlw () {
+      axios.post('/api/cancelFlw', {
+        user_name: this.$route.params.name,
+        follower_name: Cookies.get('user')
+      }).then((res) => {
+        this.follow = true
+      }).catch((err) => {
+        console.log(err)
+      })
     }
   }
 }
@@ -94,6 +130,7 @@ export default {
   .my-page{
     width: 100%;
     height: 100px;
+    margin-top: 20px;
     display: flex;
     align-items: center;
   }
@@ -105,10 +142,19 @@ export default {
     border-radius: 60px;
     vertical-align: middle;
   }
-  .my-page-contain{
+  .page-contain{
     width: 70%;
   }
-  .my-page-contain p{
+  .page-contain-a{
+    width: 80%;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    line-height: 40px;
+    font-size: 0.5rem;
+    font-weight: bold;
+  }
+  .page-contain p{
     text-align: left;
   }
   .my-time{
