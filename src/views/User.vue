@@ -19,13 +19,18 @@
     </div>
     <div class="my-time">
       <div>
-        <p>{{ info[1].data[0].userMomentCount }}</p>
+        <p>{{ info[1].data.length }}</p>
         <p>时刻</p>
       </div>
       <div>
-        <p>{{ this.info[2].data[0].follow }}</p>
+        <p>{{ this.info[2].data.length }}</p>
         <p>粉丝</p>
       </div>
+    </div>
+    <div class="item">
+      <p>Ta的最新时刻</p>
+      <p>{{info[1].data[0].moment}}</p>
+      <img :src="info[1].data[0].monent_img" alt="">
     </div>
     <mfooter bgColor="rgb(121, 85, 72)"></mfooter>
   </div>
@@ -55,14 +60,14 @@ export default {
         params: { name: this.$route.params.name }
       })
     },
-    userMomentCount () {
-      return axios.get('/api/userMomentCount', {
+    userMoment () {
+      return axios.get('/api/userMoment', {
         params: { name: this.$route.params.name }
       })
     },
-    userFollowed () {
-      return axios.get('/api/userFollowed', {
-        params: { name: this.$route.params.name }
+    userFol () {
+      return axios.get('/api/userFol', {
+        params: { name: Cookies.get('user') }
       })
     },
     isFollow () {
@@ -75,7 +80,7 @@ export default {
     },
     init () {
       if (Cookies.get('user')) {
-        axios.all([this.getShortInfo(), this.userMomentCount(), this.userFollowed(), this.isFollow()]).then(
+        axios.all([this.getShortInfo(), this.userMoment(), this.userFol(), this.isFollow()]).then(
           (res) => {
             this.info = res
             if (this.info[3].data.length > 0) {
@@ -169,5 +174,18 @@ export default {
   }
   .my-time div p:nth-child(2){
     margin-top: 0;
+  }
+  .item p:nth-child(1){
+    text-align: left;
+    margin-left: 0.5rem;
+    font-weight: bold;
+  }
+  .item p:nth-child(2){
+    text-align: left;
+    margin-left: 0.5rem;
+  }
+  .item img{
+    width: 60%;
+    margin-left: -1.8rem;
   }
 </style>

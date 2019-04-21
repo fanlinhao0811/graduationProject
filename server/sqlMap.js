@@ -18,6 +18,8 @@ var sqlMap = {
   userFollowed: 'SELECT count(*) as follow FROM user_follow WHERE user_name = ? ',
   userFol: 'SELECT * FROM user_follow WHERE user_name = ? ',
   userFan: 'SELECT * FROM user_follow WHERE follower_name = ? ',
+  userPre: 'SELECT * FROM pre_moment WHERE user_name = ? ',
+  delPre: 'DELETE FROM pre_moment WHERE id= ? ',
   adminUser: 'SELECT * FROM user'
 }
 

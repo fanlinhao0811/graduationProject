@@ -2,16 +2,16 @@
 <template>
   <div class="me" v-if="infon">
     <header>
-      <div><img src="../assets/images/me/settings.png" alt=""></div>
+      <div>监督建议</div>
       <div>个人主页</div>
-      <div><img src="../assets/images/me/plus.png" alt=""></div>
+      <div @click="loginOut">退出登录</div>
     </header>
     <div class="my-page">
       <div class="my-page-img">
         <img :src="infon[0].data[0].img" alt="">
       </div>
       <div class="my-page-contain">
-        <p>{{ infon[0].data[0].name }}</p>
+        <p>{{ infon[0].data[0].name }} <el-button icon="el-icon-edit" size="mini" circle></el-button></p>
         <p>简介：{{ infon[0].data[0].desc }}</p>
       </div>
     </div>
@@ -30,9 +30,24 @@
       </div>
     </div>
     <div class="item">
-      <p>最新时刻</p>
+      <p>我的最新时刻</p>
       <p>{{infon[1].data[0].moment}}</p>
       <img :src="infon[1].data[0].monent_img" alt="">
+    </div>
+    <div class="item item1" v-if="infon[4].data.length > 0">
+      <p>
+        我的草稿时刻
+        <el-button type="success" icon="el-icon-check" circle @click="newPre"></el-button>
+        <el-button type="danger" icon="el-icon-delete" circle @click="delPre"></el-button>
+      </p>
+      <p>{{infon[4].data[0].moment}}</p>
+      <img :src="infon[4].data[0].moment_img" alt="">
+    </div>
+    <div class="item item1" v-else-if="infon[4].data.length === 0">
+      <p>
+        我的草稿时刻
+      </p>
+      <p>暂无草稿哦～～</p>
     </div>
     <mfooter bgColor="rgb(121, 85, 72)"></mfooter>
   </div>
@@ -78,8 +93,8 @@ export default {
     info: state => state.info
   }),
   methods: {
-    getShortInfo () {
-      return axios.get('/api/getShortInfo', {
+    getInfo () {
+      return axios.get('/api/getInfo', {
         params: { name: Cookies.get('user') }
       })
     },
@@ -98,12 +113,42 @@ export default {
         params: { name: Cookies.get('user') }
       })
     },
+    userPre () {
+      return axios.get('/api/userPre', {
+        params: { name: Cookies.get('user') }
+      })
+    },
     init () {
-      axios.all([this.getShortInfo(), this.userMoment(), this.userFol(), this.userFan()]).then(
+      axios.all([this.getInfo(), this.userMoment(), this.userFol(), this.userFan(), this.userPre()]).then(
         (res) => {
           this.infon = res
         }
       )
+    },
+    newPre () {
+      axios.post('/api/newMoment', {
+        moment: this.infon[4].data[0].moment,
+        user_id: this.infon[4].data[0].user_id,
+        user_name: this.infon[4].data[0].user_name,
+        monent_img: this.infon[4].data[0].moment_img
+      }).then((res) => {
+        axios.post('/api/delPre', {
+          id: this.infon[4].data[0].id
+        }).then((res) => {
+          this.init()
+        })
+      })
+    },
+    delPre () {
+      axios.post('/api/delPre', {
+        id: this.infon[4].data[0].id
+      }).then((res) => {
+        this.init()
+      })
+    },
+    loginOut () {
+      Cookies.remove('user')
+      this.$router.push({ path: '/login' })
     }
   }
 }
@@ -183,5 +228,8 @@ export default {
   .item img{
     width: 60%;
     margin-left: -1.8rem;
+  }
+  .item1{
+    margin-bottom: 50px;
   }
 </style>

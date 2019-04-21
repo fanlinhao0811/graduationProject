@@ -66,6 +66,12 @@ router.post('/cancelFlw', (req, res, next) => {
 router.get('/isFollow', (req, res, next) => {
   api.isFollow(req, res, next)
 })
+router.get('/userPre', (req, res, next) => {
+  api.userPre(req, res, next)
+})
+router.post('/delPre', (req, res, next) => {
+  api.delPre(req, res, next)
+})
 
 router.get('/adminUser', (req, res, next) => {
   api.adminUser(req, res, next)

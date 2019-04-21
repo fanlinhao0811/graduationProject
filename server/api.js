@@ -166,6 +166,28 @@ module.exports = {
       })
     })
   },
+  userPre (req, res, next) {
+    var name = req.query.name
+    pool.getConnection((err, connection) => {
+      var sql = sqlMap.userPre
+      connection.query(sql, [name], (err, result) => {
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
+  delPre (req, res, next) {
+    var id = req.body.id
+    pool.getConnection((err, connection) => {
+      if (err) { throw err }
+      var sql = sqlMap.delPre
+      connection.query(sql, [id], (err, result) => {
+        if (err) { res.json(err) }
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
   flw (req, res, next) {
     var userName = req.body.user_name
     var followerName = req.body.follower_name
