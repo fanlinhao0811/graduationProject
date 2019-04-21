@@ -24,30 +24,35 @@
     <!-- <input type="file" name="image" accept=“image/*” id='upload' @change='handleInputChange()'> -->
     <mfooter bgColor="rgb(121, 85, 72)"></mfooter>
     <conform :showConform='showConform' :conformMsg='conformMsg' @hideConform="hideConform" @btnTrue="btnTrue"></conform>
+    <conform1 :showConform='showConform1' :conformMsg='conformMsg1' @hideConform="hideConform" @btnTrue="btnTrue1"></conform1>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-// import toast from '../components/toast/index.js'
+import toast from '../components/toast/index.js'
 import { mapState } from 'vuex'
 import Cookies from 'js-cookie'
 import mfooter from '../components/Footer'
 import conform from '../components/Conform'
+import conform1 from '../components/Conform1'
 import $ from 'jquery'
 export default {
   name: 'new',
   data () {
     return {
       showConform: '',
+      showConform1: '',
       conformMsg: '',
+      conformMsg1: '',
       moment: '',
       imageUrl: ''
     }
   },
   components: {
     mfooter,
-    conform
+    conform,
+    conform1
   },
   created () {
     if (Cookies.get('user')) {
@@ -68,15 +73,24 @@ export default {
   }),
   methods: {
     cancel () {
-      this.showConform = true
-      this.conformMsg = '需要为您保存草稿吗？'
+      if (this.moment) {
+        this.showConform1 = true
+        this.conformMsg1 = '需要为您保存草稿吗？'
+      } else {
+        this.$router.push({ path: '/finder' })
+      }
     },
     newMonment () {
-      this.showConform = true
-      this.conformMsg = '您确定发布吗？'
+      if (this.moment) {
+        this.showConform = true
+        this.conformMsg = '您确定发布吗？'
+      } else {
+        toast('您还没有时刻需要发布哦～')
+      }
     },
     hideConform (val) {
       this.showConform = val
+      this.showConform1 = val
     },
     btnTrue () {
       this.showConform = false
@@ -85,8 +99,19 @@ export default {
         user_id: this.info.id,
         user_name: this.info.name,
         monent_img: this.imageUrl
-      }).then((res) => {
-        console.log('res', res)
+      }).then(() => {
+        this.$router.push({ path: '/home' })
+      })
+    },
+    btnTrue1 () {
+      this.showConform1 = false
+      axios.post('/api/preMoment', {
+        moment: this.moment,
+        user_id: this.info.id,
+        user_name: this.info.name,
+        monent_img: this.imageUrl
+      }).then(() => {
+        this.$router.push({ path: '/home' })
       })
     },
     handleAvatarSuccess (res, file) {

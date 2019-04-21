@@ -84,6 +84,19 @@ module.exports = {
       })
     })
   },
+  preMoment (req, res, next) {
+    var moment = req.body.moment
+    var userId = req.body.user_id
+    var monentImg = req.body.monent_img
+    var userName = req.body.user_name
+    pool.getConnection((err, connection) => {
+      var sql = sqlMap.preMoment
+      connection.query(sql, [moment, userId, monentImg, userName], (err, result) => {
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
 
   moment (req, res, next) {
     pool.getConnection((err, connection) => {
@@ -221,6 +234,20 @@ module.exports = {
       if (err) { throw err }
       var sql = sqlMap.isFollow
       connection.query(sql, [userName, followerName], (err, result) => {
+        if (err) { res.json(err) }
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
+  updateInfo (req, res, next) {
+    var desc = req.body.desc
+    var pwd = req.body.pwd
+    var id = req.body.id
+    pool.getConnection((err, connection) => {
+      if (err) { throw err }
+      var sql = sqlMap.updateInfo
+      connection.query(sql, [desc, pwd, id], (err, result) => {
         if (err) { res.json(err) }
         res.json(result)
         connection.release()

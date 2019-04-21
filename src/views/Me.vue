@@ -11,7 +11,7 @@
         <img :src="infon[0].data[0].img" alt="">
       </div>
       <div class="my-page-contain">
-        <p>{{ infon[0].data[0].name }} <el-button icon="el-icon-edit" size="mini" circle></el-button></p>
+        <p>{{ infon[0].data[0].name }} <el-button icon="el-icon-edit" size="mini" circle @click="dialogVisible = true"></el-button></p>
         <p>简介：{{ infon[0].data[0].desc }}</p>
       </div>
     </div>
@@ -49,6 +49,27 @@
       </p>
       <p>暂无草稿哦～～</p>
     </div>
+    <el-dialog
+      title="修改个人资料"
+      :visible.sync="dialogVisible"
+      width="90%">
+      <div class="bb">
+        <span>用户名:</span>
+        <el-input v-model="infon[4].data[0].user_name" placeholder="请输入内容" class="aa" :disabled="true"></el-input>
+      </div>
+      <div class="bb">
+        <span>简介信息:</span>
+        <el-input v-model="infon[0].data[0].desc" placeholder="请输入内容" class="aa"></el-input>
+      </div>
+      <div class="bb">
+        <span>密码:</span>
+        <el-input v-model="infon[0].data[0].pwd" placeholder="请输入内容" class="aa"></el-input>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="updateInfo">更 新</el-button>
+      </span>
+    </el-dialog>
     <mfooter bgColor="rgb(121, 85, 72)"></mfooter>
   </div>
 </template>
@@ -63,7 +84,8 @@ export default {
   name: 'me',
   data () {
     return {
-      infon: null
+      infon: null,
+      dialogVisible: false
     }
   },
   components: {
@@ -149,6 +171,16 @@ export default {
     loginOut () {
       Cookies.remove('user')
       this.$router.push({ path: '/login' })
+    },
+    updateInfo () {
+      axios.post('/api/updateInfo', {
+        desc: this.infon[0].data[0].desc,
+        pwd: this.infon[0].data[0].pwd,
+        id: this.infon[0].data[0].id
+      }).then((res) => {
+        this.dialogVisible = false
+        this.init()
+      })
     }
   }
 }
@@ -231,5 +263,18 @@ export default {
   }
   .item1{
     margin-bottom: 50px;
+  }
+  .bb{
+    width: 80%;
+    margin-left: 10%;
+    margin-bottom: 10%;
+  }
+  .bb span{
+    display: inline-block;
+    width: 30%;
+  }
+  .bb .aa{
+    display: inline-block;
+    width: 70%;
   }
 </style>

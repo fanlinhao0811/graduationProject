@@ -23,6 +23,9 @@ router.get('/login', (req, res, next) => {
 router.post('/newMoment', (req, res, next) => {
   api.newMoment(req, res, next)
 })
+router.post('/preMoment', (req, res, next) => {
+  api.preMoment(req, res, next)
+})
 
 // 获取moment
 router.get('/moment', (req, res, next) => {
@@ -71,6 +74,9 @@ router.get('/userPre', (req, res, next) => {
 })
 router.post('/delPre', (req, res, next) => {
   api.delPre(req, res, next)
+})
+router.post('/updateInfo', (req, res, next) => {
+  api.updateInfo(req, res, next)
 })
 
 router.get('/adminUser', (req, res, next) => {
