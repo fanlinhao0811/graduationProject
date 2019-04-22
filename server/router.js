@@ -72,11 +72,17 @@ router.get('/isFollow', (req, res, next) => {
 router.get('/userPre', (req, res, next) => {
   api.userPre(req, res, next)
 })
+router.get('/mySuggest', (req, res, next) => {
+  api.mySuggest(req, res, next)
+})
 router.post('/delPre', (req, res, next) => {
   api.delPre(req, res, next)
 })
 router.post('/updateInfo', (req, res, next) => {
   api.updateInfo(req, res, next)
+})
+router.post('/sendSuggest', (req, res, next) => {
+  api.sendSuggest(req, res, next)
 })
 
 router.get('/adminUser', (req, res, next) => {

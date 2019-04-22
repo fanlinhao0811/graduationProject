@@ -189,6 +189,16 @@ module.exports = {
       })
     })
   },
+  mySuggest (req, res, next) {
+    var name = req.query.name
+    pool.getConnection((err, connection) => {
+      var sql = sqlMap.mySuggest
+      connection.query(sql, [name], (err, result) => {
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
   delPre (req, res, next) {
     var id = req.body.id
     pool.getConnection((err, connection) => {
@@ -248,6 +258,20 @@ module.exports = {
       if (err) { throw err }
       var sql = sqlMap.updateInfo
       connection.query(sql, [desc, pwd, id], (err, result) => {
+        if (err) { res.json(err) }
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
+  sendSuggest (req, res, next) {
+    var suggest = req.body.suggest
+    var sendUserId = req.body.send_user_id
+    var sendUserName = req.body.send_user_name
+    pool.getConnection((err, connection) => {
+      if (err) { throw err }
+      var sql = sqlMap.sendSuggest
+      connection.query(sql, [suggest, sendUserId, sendUserName], (err, result) => {
         if (err) { res.json(err) }
         res.json(result)
         connection.release()

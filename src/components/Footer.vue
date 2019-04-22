@@ -1,6 +1,6 @@
 <template>
     <div class="footer" :style="{background:bgColor}">
-      <div><router-link to='/home'>Home</router-link></div>
+      <div><router-link to='/home/friend'>Home</router-link></div>
       <div><router-link to='/finder'>Finder</router-link></div>
       <div><router-link to='/new'>New</router-link></div>
       <div><router-link to='/me'>Me</router-link></div>

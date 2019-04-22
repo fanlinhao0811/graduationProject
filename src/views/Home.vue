@@ -1,39 +1,24 @@
 <template>
   <div class="">
-    <button type="primary" @click="getValue">调用后台接口</button>
-    <input v-model="inpContent">
-    <router-link to="/login">登陆</router-link>
+    <nav>
+      <div class="friend">
+        <router-link to="/home/friend">friend</router-link>
+      </div>
+      <div class="me">
+        <router-link to="/home/me">me</router-link>
+      </div>
+    </nav>
     <router-view></router-view>
-    <input type="button" value="显示弹窗" @click="showToast">
-    <mfooter bgColor="rgb(121, 85, 72)"></mfooter>
+    <mfooter bgColor="rgb(74, 75, 79)"></mfooter>
   </div>
 </template>
 
 <script>
 import mfooter from '../components/Footer'
-import axios from 'axios'
-import toast from '../components/toast/index.js'
 export default {
   name: 'home',
   components: {
     mfooter
-  },
-  data () {
-    return {
-      inpContent: ''
-    }
-  },
-  methods: {
-    getValue () {
-      axios.get('/api/getValue', {
-        params: { id: 1 }
-      }).then((res) => {
-        this.inpContent = res.data[0].name
-      })
-    },
-    showToast () {
-      toast('我是弹出消息')
-    }
   }
 }
 </script>
@@ -44,5 +29,19 @@ export default {
   text-decoration: none;
   color: black;
   font-size: .4rem;
+}
+nav{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #ccc;
+  height: 40px;
+  color: #999;
+  position: fixed;
+  top: 0;
+}
+nav div a.router-link-active{
+  color: #fff;
 }
 </style>

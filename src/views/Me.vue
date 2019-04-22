@@ -2,7 +2,7 @@
 <template>
   <div class="me" v-if="infon">
     <header>
-      <div>监督建议</div>
+      <div @click="suggest">监督建议</div>
       <div>个人主页</div>
       <div @click="loginOut">退出登录</div>
     </header>
@@ -17,8 +17,10 @@
     </div>
     <div class="my-time">
       <div>
-        <p>{{ infon[1].data.length }}</p>
-        <p>时刻</p>
+        <router-link to='/home/me'>
+          <p>{{ infon[1].data.length }}</p>
+          <p>时刻</p>
+        </router-link>
       </div>
       <div>
         <p>{{ infon[3].data.length }}</p>
@@ -34,7 +36,7 @@
       <p>{{infon[1].data[0].moment}}</p>
       <img :src="infon[1].data[0].monent_img" alt="">
     </div>
-    <div class="item item1" v-if="infon[4].data.length > 0">
+    <div class="item" v-if="infon[4].data.length > 0">
       <p>
         我的草稿时刻
         <el-button type="success" icon="el-icon-check" circle @click="newPre"></el-button>
@@ -43,11 +45,20 @@
       <p>{{infon[4].data[0].moment}}</p>
       <img :src="infon[4].data[0].moment_img" alt="">
     </div>
-    <div class="item item1" v-else-if="infon[4].data.length === 0">
+    <div class="item" v-else-if="infon[4].data.length === 0">
       <p>
         我的草稿时刻
       </p>
       <p>暂无草稿哦～～</p>
+    </div>
+    <div class="item item1">
+      <p>
+        监督建议
+      </p>
+      <div v-if="infon[5].data.length === 0" class="tt">我暂时还没有提出监督建议哦～～</div>
+      <div v-else-if="infon[5].data.length > 0" v-for="(item,index) in infon[5].data" :key="index" class="tt" @click="dialog(item)">
+        No.{{index}} — {{item.suggest}}
+      </div>
     </div>
     <el-dialog
       title="修改个人资料"
@@ -70,6 +81,33 @@
         <el-button type="primary" @click="updateInfo">更 新</el-button>
       </span>
     </el-dialog>
+    <el-dialog
+      title="监督建议"
+      :visible.sync="dialogVisible1"
+      width="90%">
+      <el-input
+        type="textarea"
+        :rows="4"
+        placeholder="请告诉我们您对本系统的建议"
+        v-model="textarea">
+      </el-input>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible1 = false">取 消</el-button>
+        <el-button type="primary" @click="sendSuggest">发 送</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog
+      title="我提出的监督建议"
+      :visible.sync="dialogVisible2"
+      width="90%"
+      class="oo">
+      <p>{{suggestInfo.suggest}}</p>
+      <p>管理员处理：</p>
+      <p>{{suggestInfo.reply || '管理员正在处理，请稍后～～'}}</p>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="dialogVisible2 = false">关 闭</el-button>
+      </span>
+    </el-dialog>
     <mfooter bgColor="rgb(121, 85, 72)"></mfooter>
   </div>
 </template>
@@ -85,7 +123,11 @@ export default {
   data () {
     return {
       infon: null,
-      dialogVisible: false
+      dialogVisible: false,
+      dialogVisible1: false,
+      dialogVisible2: false,
+      textarea: '',
+      suggestInfo: ''
     }
   },
   components: {
@@ -140,8 +182,13 @@ export default {
         params: { name: Cookies.get('user') }
       })
     },
+    mySuggest () {
+      return axios.get('/api/mySuggest', {
+        params: { name: Cookies.get('user') }
+      })
+    },
     init () {
-      axios.all([this.getInfo(), this.userMoment(), this.userFol(), this.userFan(), this.userPre()]).then(
+      axios.all([this.getInfo(), this.userMoment(), this.userFol(), this.userFan(), this.userPre(), this.mySuggest()]).then(
         (res) => {
           this.infon = res
         }
@@ -181,11 +228,32 @@ export default {
         this.dialogVisible = false
         this.init()
       })
+    },
+    suggest () {
+      this.dialogVisible1 = true
+    },
+    sendSuggest () {
+      axios.post('/api/sendSuggest', {
+        suggest: this.textarea,
+        send_user_id: this.infon[0].data[0].id,
+        send_user_name: this.infon[0].data[0].name
+      }).then((res) => {
+        this.dialogVisible1 = false
+        this.init()
+      })
+    },
+    dialog (item) {
+      this.dialogVisible2 = true
+      this.suggestInfo = item
     }
   }
 }
 </script>
 <style scoped>
+  a{
+    text-decoration: none;
+    color: #2c3e50;
+  }
   .me{
     width: 100%;
     min-height: 100vh;
@@ -262,7 +330,7 @@ export default {
     margin-left: -1.8rem;
   }
   .item1{
-    margin-bottom: 50px;
+    margin-bottom: 80px;
   }
   .bb{
     width: 80%;
@@ -276,5 +344,18 @@ export default {
   .bb .aa{
     display: inline-block;
     width: 70%;
+  }
+  .tt{
+    text-align: left;
+    margin-left: 30px;
+    margin-top: 10px;
+  }
+  .oo p{
+    text-align: left;
+    margin-left: 10px;
+  }
+  .oo p:nth-child(2){
+    font-size: 0.36rem;
+    font-weight: bold;
   }
 </style>

@@ -10,12 +10,24 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/home'
+      redirect: '/home/friend'
     },
     {
       path: '/home',
       name: 'home',
-      component: Home
+      component: Home,
+      children: [
+        {
+          path: 'me',
+          component: () => import('./views/HomeMe.vue'),
+          name: 'home/me'
+        },
+        {
+          path: 'friend',
+          component: () => import('./views/HomeFriend.vue'),
+          name: 'home/friend'
+        }
+      ]
     },
     {
       path: '/finder',

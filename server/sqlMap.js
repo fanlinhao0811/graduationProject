@@ -13,6 +13,7 @@ var sqlMap = {
   cancelFlw: 'DELETE FROM user_follow WHERE user_name= ? AND follower_name = ?',
   isFollow: 'SELECT * FROM user_follow WHERE user_name= ? AND follower_name = ?',
   updateInfo: 'UPDATE user SET `desc` = ? , pwd = ? WHERE id = ? ',
+  sendSuggest: 'INSERT INTO suggest SET suggest= ? , send_user_id = ?, send_user_name = ? ',
 
   getShortInfo: 'SELECT name,`desc`,img FROM user WHERE name = ?',
   // userMomentCount: 'SELECT count(*) as userMomentCount FROM user_moment WHERE user_name = ?',
@@ -21,6 +22,7 @@ var sqlMap = {
   userFol: 'SELECT * FROM user_follow WHERE user_name = ? ',
   userFan: 'SELECT * FROM user_follow WHERE follower_name = ? ',
   userPre: 'SELECT * FROM pre_moment WHERE user_name = ? ',
+  mySuggest: 'SELECT * FROM suggest WHERE send_user_name = ? ',
   delPre: 'DELETE FROM pre_moment WHERE id= ? ',
   adminUser: 'SELECT * FROM user'
 }
