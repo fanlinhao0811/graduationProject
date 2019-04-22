@@ -7,6 +7,7 @@ var sqlMap = {
   newMoment: 'INSERT INTO user_moment SET moment= ? , user_id = ?, monent_img = ?, user_name = ?',
   preMoment: 'INSERT INTO pre_moment SET moment= ? , user_id = ?, moment_img = ?, user_name = ?',
   moment: 'SELECT * FROM user_moment',
+  friendMoment: 'select * from user_moment where user_name = any(select follower_name from user_follow where user_name= ? )',
   getInfo: 'SELECT * FROM user WHERE name = ?',
   // user: 'SELECT count(*) as name FROM user_moment WHERE user_name = ? UNION ALL SELECT `desc` FROM user WHERE name = ?',
   flw: 'INSERT INTO user_follow SET user_name= ? , follower_name = ?',

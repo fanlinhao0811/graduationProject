@@ -149,6 +149,16 @@ module.exports = {
       })
     })
   },
+  friendMoment (req, res, next) {
+    var name = req.query.name
+    pool.getConnection((err, connection) => {
+      var sql = sqlMap.friendMoment
+      connection.query(sql, [name], (err, result) => {
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
   userFollowed (req, res, next) {
     var name = req.query.name
     pool.getConnection((err, connection) => {

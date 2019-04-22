@@ -51,6 +51,9 @@ router.get('/userMomentCount', (req, res, next) => {
 router.get('/userMoment', (req, res, next) => {
   api.userMoment(req, res, next)
 })
+router.get('/friendMoment', (req, res, next) => {
+  api.friendMoment(req, res, next)
+})
 router.get('/userFollowed', (req, res, next) => {
   api.userFollowed(req, res, next)
 })
