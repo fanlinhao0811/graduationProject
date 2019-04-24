@@ -1,6 +1,8 @@
 const mysql = require('mysql')
 const dbConfig = require('./db')
 const sqlMap = require('./sqlMap')
+const path = require('path')
+const fs = require('fs')
 
 const pool = mysql.createPool({
   host: dbConfig.mysql.host,
@@ -309,5 +311,35 @@ module.exports = {
         connection.release()
       })
     })
+  },
+
+
+  uploadImg (req, res, next) {
+
+    // console.log(req.files.file);
+    // console.log(__dirname)
+    // console.log(path.resolve(__dirname, '../'));
+
+    // 上传图片
+
+    const uploadDir = `upload/`// 保存的文件夹
+    const file = req.files.file    // 获取上传文件
+    const ext = file.name.split('.').pop()        // 获取上传文件扩展名
+    const fileName = `${Date.parse(new Date())}.${ext}`  // 文件名
+    const filePath = `./${uploadDir}${fileName}`       // 文件路径
+    const reader = fs.createReadStream(file.path)    // 创建可读流
+    const upStream = fs.createWriteStream(path.join(__dirname, `${filePath}`))        // 创建可写流
+    reader.pipe(upStream)                                    // 可读流通过管道写入可写流
+
+    res.json({ code: 0, msg: 'success', data: {imgPath: `/static/${fileName}`} })
+
+
+    // pool.getConnection((err, connection) => {
+    //   var sql = sqlMap.adminUser
+    //   connection.query(sql, [], (err, result) => {
+    //     res.json(result)
+    //     connection.release()
+    //   })
+    // })
   }
 }

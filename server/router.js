@@ -2,6 +2,9 @@ const express = require('express')
 const router = express.Router()
 const api = require('./api')
 
+var multipart = require('connect-multiparty'); //在处理模块中引入第三方解析模块
+var multipartMiddleware = multipart();
+
 router.get('/getValue', (req, res, next) => {
   api.getValue(req, res, next)
 })
@@ -90,6 +93,11 @@ router.post('/sendSuggest', (req, res, next) => {
 
 router.get('/adminUser', (req, res, next) => {
   api.adminUser(req, res, next)
+})
+
+// 上传
+router.post('/upload', multipartMiddleware, (req, res, next) => {
+  api.uploadImg(req, res, next)
 })
 
 module.exports = router

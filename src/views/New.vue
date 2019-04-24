@@ -14,11 +14,11 @@
     </form> -->
     <el-upload
       class="avatar-uploader"
-      action="http://s.hangray.com:18040/resource/images"
+      action="/api/upload"
       :show-file-list="false"
       :on-success="handleAvatarSuccess"
       :before-upload="beforeAvatarUpload">
-      <img v-if="imageUrl" :src="imageUrl" class="avatar">
+      <img v-if="imgPath" :src="imgPath" class="avatar">
       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
     </el-upload>
     <!-- <input type="file" name="image" accept=“image/*” id='upload' @change='handleInputChange()'> -->
@@ -46,7 +46,8 @@ export default {
       conformMsg: '',
       conformMsg1: '',
       moment: '',
-      imageUrl: ''
+      // imageUrl: '',
+      imgPath: ''
     }
   },
   components: {
@@ -98,7 +99,7 @@ export default {
         moment: this.moment,
         user_id: this.info.id,
         user_name: this.info.name,
-        monent_img: this.imageUrl
+        monent_img: this.imgPath
       }).then(() => {
         this.$router.push({ path: '/home' })
       })
@@ -109,25 +110,27 @@ export default {
         moment: this.moment,
         user_id: this.info.id,
         user_name: this.info.name,
-        monent_img: this.imageUrl
+        monent_img: this.imgPath
       }).then(() => {
         this.$router.push({ path: '/home' })
       })
     },
     handleAvatarSuccess (res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw)
+      console.log(arguments)
+      // this.imageUrl = URL.createObjectURL(file.raw)
+      this.imgPath = res.data.imgPath
     },
     beforeAvatarUpload (file) {
-      const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
+      const isJPG = (file.type === 'image/jpeg') || (file.type === 'image/png')
+      const isLt10M = file.size / 1024 / 1024 < 10
 
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
+        this.$message.error('上传头像图片只能是 JPG/PNG 格式!')
       }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!')
+      if (!isLt10M) {
+        this.$message.error('上传头像图片大小不能超过 10MB!')
       }
-      return isJPG && isLt2M
+      return isJPG && isLt10M
     },
     handleInputChange () {
       var form = document.getElementById('upload')

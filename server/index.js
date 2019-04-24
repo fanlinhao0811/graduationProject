@@ -1,26 +1,13 @@
 const routerApi = require('./router')
 const bodyParser = require('body-parser') // post 数据是需要
-const fs = require('fs')
 const express = require('express')
-const multer = require('multer')
+const path = require('path')
 const app = express()
-const upload = multer({ dest: 'upload/' })
 
-app.post('/upload', upload.single('logo'), function (req, res, next) {
-  const file = req.file
 
-  console.log('文件类型：%s', file.mimetype)
-  console.log('原始文件名：%s', file.originalname)
-  console.log('文件大小：%s', file.size)
-  console.log('文件保存路径：%s', file.path)
 
-  res.send({ ret_code: '0' })
-})
+app.use('/upload', express.static(path.join(__dirname, 'upload')))
 
-app.get('/form', function (req, res, next) {
-  const form = fs.readFileSync('../src/views/New.vue', { encoding: 'utf8' })
-  res.send(form)
-})
 
 app.use(bodyParser.json())
 
