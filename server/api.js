@@ -102,8 +102,10 @@ module.exports = {
 
   moment (req, res, next) {
     pool.getConnection((err, connection) => {
+      if (err) { throw err }
       var sql = sqlMap.moment
       connection.query(sql, [], (err, result) => {
+        if (err) { throw err }
         res.json(result)
         connection.release()
       })
@@ -284,7 +286,7 @@ module.exports = {
       if (err) { throw err }
       var sql = sqlMap.sendSuggest
       connection.query(sql, [suggest, sendUserId, sendUserName], (err, result) => {
-        if (err) { res.json(err) }
+        if (err) { throw err }
         res.json(result)
         connection.release()
       })
@@ -313,9 +315,7 @@ module.exports = {
     })
   },
 
-
   uploadImg (req, res, next) {
-
     // console.log(req.files.file);
     // console.log(__dirname)
     // console.log(path.resolve(__dirname, '../'));
@@ -323,16 +323,15 @@ module.exports = {
     // 上传图片
 
     const uploadDir = `upload/`// 保存的文件夹
-    const file = req.files.file    // 获取上传文件
-    const ext = file.name.split('.').pop()        // 获取上传文件扩展名
-    const fileName = `${Date.parse(new Date())}.${ext}`  // 文件名
-    const filePath = `./${uploadDir}${fileName}`       // 文件路径
-    const reader = fs.createReadStream(file.path)    // 创建可读流
-    const upStream = fs.createWriteStream(path.join(__dirname, `${filePath}`))        // 创建可写流
-    reader.pipe(upStream)                                    // 可读流通过管道写入可写流
+    const file = req.files.file // 获取上传文件
+    const ext = file.name.split('.').pop() // 获取上传文件扩展名
+    const fileName = `${Date.parse(new Date())}.${ext}` // 文件名
+    const filePath = `./${uploadDir}${fileName}` // 文件路径
+    const reader = fs.createReadStream(file.path) // 创建可读流
+    const upStream = fs.createWriteStream(path.join(__dirname, `${filePath}`)) // 创建可写流
+    reader.pipe(upStream) // 可读流通过管道写入可写流
 
-    res.json({ code: 0, msg: 'success', data: {imgPath: `/static/${fileName}`} })
-
+    res.json({ code: 0, msg: 'success', data: { imgPath: `/upload/${fileName}` } })
 
     // pool.getConnection((err, connection) => {
     //   var sql = sqlMap.adminUser

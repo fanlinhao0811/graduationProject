@@ -1,4 +1,3 @@
-
 <template>
   <div class="finder">
     <div class="container">
@@ -62,6 +61,8 @@ export default {
     axios.get('/api/moment').then((res) => {
       this.list = res.data.reverse()
       console.log(this.list)
+    }).catch(err => {
+      console.log(err)
     })
     /* eslint-disable no-new */
     this.$nextTick(() => {
