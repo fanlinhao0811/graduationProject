@@ -7,11 +7,6 @@
       <div @click="newMonment">发送</div>
     </header>
     <textarea class="new-content" placeholder="分享你的moment..." v-model="moment"></textarea>
-    <!-- <form action="/upload" method="post" enctype="multipart/form-data">
-      <h2>单图上传</h2>
-      <input type="file" name="logo">
-      <input type="submit" value="提交">
-    </form> -->
     <el-upload
       class="avatar-uploader"
       action="/api/upload"
@@ -21,7 +16,6 @@
       <img v-if="imgPath" :src="imgPath" class="avatar">
       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
     </el-upload>
-    <!-- <input type="file" name="image" accept=“image/*” id='upload' @change='handleInputChange()'> -->
     <mfooter bgColor="rgb(121, 85, 72)"></mfooter>
     <conform :showConform='showConform' :conformMsg='conformMsg' @hideConform="hideConform" @btnTrue="btnTrue"></conform>
     <conform1 :showConform='showConform1' :conformMsg='conformMsg1' @hideConform="hideConform" @btnTrue="btnTrue1"></conform1>
@@ -55,7 +49,7 @@ export default {
     conform,
     conform1
   },
-  created () {
+  mounted () {
     if (Cookies.get('user')) {
       axios.get('/api/getInfo', {
         params: { name: Cookies.get('user') }
@@ -67,6 +61,12 @@ export default {
     } else {
       this.$router.push({ path: '/login' })
     }
+    axios.get('/api/userPre', {
+      params: { name: Cookies.get('user') }
+    }).then((res) => {
+      this.moment = res.data[0].moment
+      this.imgPath = res.data[0].moment_img
+    })
   },
   computed: mapState({
     isLogin: state => state.isLogin,
@@ -74,7 +74,7 @@ export default {
   }),
   methods: {
     cancel () {
-      if (this.moment) {
+      if (this.moment || this.imgPath) {
         this.showConform1 = true
         this.conformMsg1 = '需要为您保存草稿吗？'
       } else {

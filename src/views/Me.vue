@@ -22,11 +22,11 @@
           <p>时刻</p>
         </router-link>
       </div>
-      <div>
+      <div @click="dialogVisible3 = true">
         <p>{{ infon[3].data.length }}</p>
         <p>关注</p>
       </div>
-      <div>
+      <div @click="dialogVisible4 = true">
         <p>{{ infon[2].data.length }}</p>
         <p>粉丝</p>
       </div>
@@ -109,6 +109,32 @@
         <el-button type="primary" @click="dialogVisible2 = false">关 闭</el-button>
       </span>
     </el-dialog>
+    <el-dialog
+      title="我的关注"
+      :visible.sync="dialogVisible3"
+      width="90%"
+      class="oo">
+      <div v-for="(item,index) in infon[3].data" :key="index" class="guanzhu-con" @click="linkto(item.user_name)">
+        <p>{{item.user_name}}</p>
+        <p><i class="el-icon-edit"/>Ta的主页</p>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="dialogVisible3 = false">关 闭</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog
+      title="我的粉丝"
+      :visible.sync="dialogVisible4"
+      width="90%"
+      class="oo">
+      <div v-for="(item,index) in infon[2].data" :key="index" class="guanzhu-con" @click="linkto(item.follower_name)">
+        <p>{{item.follower_name}}</p>
+        <p><i class="el-icon-edit"/>Ta的主页</p>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="dialogVisible4 = false">关 闭</el-button>
+      </span>
+    </el-dialog>
     <mfooter bgColor="rgb(121, 85, 72)"></mfooter>
   </div>
 </template>
@@ -127,6 +153,8 @@ export default {
       dialogVisible: false,
       dialogVisible1: false,
       dialogVisible2: false,
+      dialogVisible3: false,
+      dialogVisible4: false,
       textarea: '',
       suggestInfo: ''
     }
@@ -246,6 +274,9 @@ export default {
     dialog (item) {
       this.dialogVisible2 = true
       this.suggestInfo = item
+    },
+    linkto (hash) {
+      this.$router.push({ path: `/user/` + hash })
     }
   }
 }
@@ -358,5 +389,20 @@ export default {
   .oo p:nth-child(2){
     font-size: 0.36rem;
     font-weight: bold;
+  }
+  .guanzhu-con{
+    width: 80%;
+    margin-left: 10%;
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .guanzhu-con p:nth-child(1){
+    line-height: 30px;
+  }
+  .guanzhu-con p:nth-child(2){
+    font-size: 0.2rem;
+    line-height: 30px;
+    font-weight: inherit;
   }
 </style>

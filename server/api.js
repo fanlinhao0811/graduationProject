@@ -293,6 +293,34 @@ module.exports = {
     })
   },
 
+  like_moment (req, res, next) {
+    var momentId = req.body.moment_id
+    var momentUserId = req.body.moment_user_id
+    var momentUser = req.body.moment_user
+    var likeUser = req.body.like_user
+    var likeUserId = req.body.like_user_id
+    pool.getConnection((err, connection) => {
+      if (err) { throw err }
+      var sql = sqlMap.like_moment
+      connection.query(sql, [momentId, momentUserId, momentUser, likeUser, likeUserId], (err, result) => {
+        if (err) { throw err }
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
+  getRecommend (req, res, next) {
+    pool.getConnection((err, connection) => {
+      if (err) { throw err }
+      var sql = sqlMap.getRecommend
+      connection.query(sql, [], (err, result) => {
+        if (err) { throw err }
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
+
   // admin
   getInfo (req, res, next) {
     var name = req.query.name
@@ -332,13 +360,5 @@ module.exports = {
     reader.pipe(upStream) // 可读流通过管道写入可写流
 
     res.json({ code: 0, msg: 'success', data: { imgPath: `/upload/${fileName}` } })
-
-    // pool.getConnection((err, connection) => {
-    //   var sql = sqlMap.adminUser
-    //   connection.query(sql, [], (err, result) => {
-    //     res.json(result)
-    //     connection.release()
-    //   })
-    // })
   }
 }

@@ -11,7 +11,6 @@
           <div class="like"><i class="el-icon-star-off"/>喜欢</div>
         </div>
       </div>
-      <mfooter bgColor="rgb(121, 85, 72)"></mfooter>
       <Share v-model = "showShare"></Share>
       <!-- <Share :show = "showShare" @hideShare="hideShare"></Share> -->
     </div>
@@ -19,12 +18,11 @@
 </template>
 
 <script>
-import mfooter from '../components/Footer'
 import Share from '../components/Share'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 export default {
-  name: 'blog',
+  name: 'home',
   data () {
     return {
       list: [],
@@ -32,7 +30,6 @@ export default {
     }
   },
   components: {
-    mfooter,
     Share
   },
   created () {

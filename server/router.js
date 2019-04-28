@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 const api = require('./api')
 
-var multipart = require('connect-multiparty'); //在处理模块中引入第三方解析模块
-var multipartMiddleware = multipart();
+var multipart = require('connect-multiparty') // 在处理模块中引入第三方解析模块
+var multipartMiddleware = multipart()
 
 router.get('/getValue', (req, res, next) => {
   api.getValue(req, res, next)
@@ -89,6 +89,13 @@ router.post('/updateInfo', (req, res, next) => {
 })
 router.post('/sendSuggest', (req, res, next) => {
   api.sendSuggest(req, res, next)
+})
+
+router.post('/like_moment', (req, res, next) => {
+  api.like_moment(req, res, next)
+})
+router.get('/getRecommend', (req, res, next) => {
+  api.getRecommend(req, res, next)
 })
 
 router.get('/adminUser', (req, res, next) => {

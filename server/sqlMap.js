@@ -16,6 +16,10 @@ var sqlMap = {
   updateInfo: 'UPDATE user SET `desc` = ? , pwd = ? WHERE id = ? ',
   sendSuggest: 'INSERT INTO suggest SET suggest= ? , send_user_id = ?, send_user_name = ? ',
 
+  like_moment: 'INSERT INTO moment_like SET moment_id= ? , moment_user_id = ?, moment_user = ? , like_user = ? , like_user_id = ?',
+  like_count: 'select * from moment_like where moment_id = any(select id from user_moment where user_name= ? )',
+  getRecommend: 'select * from recommend',
+
   getShortInfo: 'SELECT name,`desc`,img FROM user WHERE name = ?',
   // userMomentCount: 'SELECT count(*) as userMomentCount FROM user_moment WHERE user_name = ?',
   userMoment: 'SELECT * FROM user_moment WHERE user_name = ?',
