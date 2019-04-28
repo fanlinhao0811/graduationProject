@@ -61,6 +61,7 @@
       </div>
     </div>
     <el-dialog
+      v-if="infon[4].data[0]"
       title="修改个人资料"
       :visible.sync="dialogVisible"
       width="90%">

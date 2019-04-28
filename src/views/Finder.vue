@@ -17,10 +17,10 @@
       <div class="item" v-for="(item,index) in list" :key="index">
         <img :src="item.monent_img || `http://image.wufazhuce.com/FqOWy_yCMK1PGdYioZW8bN52UO96`" alt="">
         <p>{{item.moment}}</p>
-        <p @click="linkto(item.user_name)">--{{item.user_name}}</p>
+        <p @click="linkto(item.user_name)">— {{item.user_name}}</p>
         <div class="item-footer">
-          <div class="share">11</div>
-          <div class="like" @click="dialogVisible = true">22</div>
+          <div class="share" @click="dialogVisible = true"><i class="el-icon-share"/>分享</div>
+          <div class="like"><i class="el-icon-star-off"/>喜欢</div>
         </div>
       </div>
       <mfooter bgColor="rgb(121, 85, 72)"></mfooter>
@@ -99,10 +99,14 @@ export default {
   margin-bottom: 50px;
 }
 .container .item {
+  width: 90%;
+  margin-left: 5%;
   margin-top: 0.2rem;
   background: #fff;
+  border-radius: 10px;
 }
 .container .item img {
+  border-radius: 10px 10px 0 0;
   display: block;
   width: 100%;
 }
@@ -113,11 +117,14 @@ export default {
   text-align: left;
 }
 .container .item p:nth-child(3) {
-  margin-top: 0.8rem;
+  text-align: right;
+  margin-right: 0.4rem;
+  margin-top: 0.2rem;
 }
 .item-footer {
   width: 90%;
   margin-left: 5%;
+  padding: 3% 0;
   display: flex;
   justify-content: space-between;
 }

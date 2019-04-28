@@ -61,11 +61,6 @@ export default new Router({
       component: () => import('./views/Register.vue')
     },
     {
-      path: '/test',
-      name: 'test',
-      component: () => import('./views/Test.vue')
-    },
-    {
       path: '/admin',
       component: Layout,
       children: [

@@ -8,7 +8,7 @@
         <router-link to="/home/me">me</router-link>
       </div>
     </nav>
-    <router-view></router-view>
+    <router-view class="home-con"></router-view>
     <mfooter bgColor="rgb(74, 75, 79)"></mfooter>
   </div>
 </template>
@@ -35,7 +35,7 @@ nav{
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background: #ccc;
+  background: rgb(74, 75, 79);
   height: 40px;
   color: #999;
   position: fixed;
@@ -43,5 +43,8 @@ nav{
 }
 nav div a.router-link-active{
   color: #fff;
+}
+.home-con{
+  margin-top: 40px;
 }
 </style>
