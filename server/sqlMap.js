@@ -29,7 +29,13 @@ var sqlMap = {
   userPre: 'SELECT * FROM pre_moment WHERE user_name = ? ',
   mySuggest: 'SELECT * FROM suggest WHERE send_user_name = ? ',
   delPre: 'DELETE FROM pre_moment WHERE id= ? ',
-  adminUser: 'SELECT * FROM user'
+  adminUser: 'SELECT * FROM user',
+  recommend: 'SELECT * FROM recommend',
+  cancelRecommend: 'UPDATE recommend SET status = ? WHERE id = ? ',
+
+  setAdmin: 'UPDATE user SET admin = ? WHERE id = ? ',
+  suggest: 'SELECT * FROM suggest',
+  updateSuggest: 'UPDATE suggest SET reply = ? , admin_name = ? WHERE suggest_id = ? '
 }
 
 module.exports = sqlMap

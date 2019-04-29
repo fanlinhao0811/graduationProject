@@ -73,6 +73,21 @@ export default new Router({
           path: 'user',
           component: () => import('@/views/admin/user'),
           name: 'user'
+        },
+        {
+          path: 'admin-user',
+          component: () => import('@/views/admin/admin-user'),
+          name: 'admin-user'
+        },
+        {
+          path: 'recommend',
+          component: () => import('@/views/admin/recommend'),
+          name: 'recommend'
+        },
+        {
+          path: 'suggest',
+          component: () => import('@/views/admin/suggest'),
+          name: 'suggest'
         }
       ]
     },

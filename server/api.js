@@ -343,13 +343,96 @@ module.exports = {
     })
   },
 
+  setAdmin (req, res, next) {
+    var admin = req.body.admin
+    var id = req.body.id
+    pool.getConnection((err, connection) => {
+      if (err) { throw err }
+      var sql = sqlMap.setAdmin
+      connection.query(sql, [admin, id], (err, result) => {
+        if (err) { res.json(err) }
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
+  cancleAdmin (req, res, next) {
+    var admin = req.body.admin
+    var id = req.body.id
+    pool.getConnection((err, connection) => {
+      if (err) { throw err }
+      var sql = sqlMap.setAdmin
+      connection.query(sql, [admin, id], (err, result) => {
+        if (err) { res.json(err) }
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
+  recommend (req, res, next) {
+    pool.getConnection((err, connection) => {
+      if (err) { throw err }
+      var sql = sqlMap.recommend
+      connection.query(sql, [], (err, result) => {
+        if (err) { throw err }
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
+  cancelRecommend (req, res, next) {
+    var status = req.body.status
+    var id = req.body.id
+    pool.getConnection((err, connection) => {
+      if (err) { throw err }
+      var sql = sqlMap.cancelRecommend
+      connection.query(sql, [status, id], (err, result) => {
+        if (err) { res.json(err) }
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
+  setrecommend (req, res, next) {
+    var status = req.body.status
+    var id = req.body.id
+    pool.getConnection((err, connection) => {
+      if (err) { throw err }
+      var sql = sqlMap.cancelRecommend
+      connection.query(sql, [status, id], (err, result) => {
+        if (err) { res.json(err) }
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
+  suggest (req, res, next) {
+    pool.getConnection((err, connection) => {
+      if (err) { throw err }
+      var sql = sqlMap.suggest
+      connection.query(sql, [], (err, result) => {
+        if (err) { throw err }
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
+  updateSuggest (req, res, next) {
+    var reply = req.body.reply
+    var adminName = req.body.admin_name
+    var id = req.body.id
+    pool.getConnection((err, connection) => {
+      if (err) { throw err }
+      var sql = sqlMap.updateSuggest
+      connection.query(sql, [reply, adminName, id], (err, result) => {
+        if (err) { res.json(err) }
+        res.json(result)
+        connection.release()
+      })
+    })
+  },
+
   uploadImg (req, res, next) {
-    // console.log(req.files.file);
-    // console.log(__dirname)
-    // console.log(path.resolve(__dirname, '../'));
-
-    // 上传图片
-
     const uploadDir = `upload/`// 保存的文件夹
     const file = req.files.file // 获取上传文件
     const ext = file.name.split('.').pop() // 获取上传文件扩展名

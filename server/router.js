@@ -102,6 +102,30 @@ router.get('/adminUser', (req, res, next) => {
   api.adminUser(req, res, next)
 })
 
+router.post('/setAdmin', (req, res, next) => {
+  api.setAdmin(req, res, next)
+})
+router.post('/cancleAdmin', (req, res, next) => {
+  api.cancleAdmin(req, res, next)
+})
+
+router.get('/recommend', (req, res, next) => {
+  api.recommend(req, res, next)
+})
+router.post('/setrecommend', (req, res, next) => {
+  api.setrecommend(req, res, next)
+})
+router.post('/cancelRecommend', (req, res, next) => {
+  api.cancelRecommend(req, res, next)
+})
+
+router.get('/suggest', (req, res, next) => {
+  api.suggest(req, res, next)
+})
+router.post('/updateSuggest', (req, res, next) => {
+  api.updateSuggest(req, res, next)
+})
+
 // 上传
 router.post('/upload', multipartMiddleware, (req, res, next) => {
   api.uploadImg(req, res, next)
