@@ -80,6 +80,11 @@ export default new Router({
           name: 'admin-user'
         },
         {
+          path: 'moment',
+          component: () => import('@/views/admin/moment'),
+          name: 'moment'
+        },
+        {
           path: 'recommend',
           component: () => import('@/views/admin/recommend'),
           name: 'recommend'

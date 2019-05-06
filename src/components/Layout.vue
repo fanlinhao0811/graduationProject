@@ -14,7 +14,7 @@
           <el-menu-item index="1-2" @click="()=>{ this.$router.push({ path: '/admin/admin-user' })}">管理人员</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-menu-item index="2">
+      <el-menu-item index="2" @click="()=>{ this.$router.push({ path: '/admin/moment' })}">
         <i class="el-icon-menu"></i>
         <span slot="title">时刻</span>
       </el-menu-item>
