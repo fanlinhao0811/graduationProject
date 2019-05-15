@@ -14,34 +14,15 @@ const pool = mysql.createPool({
 })
 
 module.exports = {
-  getValue (req, res, next) {
-    var id = req.query.id
-    pool.getConnection((err, connection) => {
-      var sql = sqlMap.getValue
-      connection.query(sql, [id], (err, result) => {
-        res.json(result)
-        connection.release()
-      })
-    })
-  },
-  setValue (req, res, next) {
-    console.log(req.body)
-    var name = req.body.name
-    pool.getConnection((err, connection) => {
-      var sql = sqlMap.setValue
-      connection.query(sql, [name], (err, result) => {
-        res.json(result)
-        connection.release()
-      })
-    })
-  },
   newUser (req, res, next) {
     var name = req.body.name
     var pwd = req.body.pwd
     var desc = req.body.desc
     pool.getConnection((err, connection) => {
+      if (err) { throw err }
       var sql = sqlMap.newUser
       connection.query(sql, [name, pwd, desc], (err, result) => {
+        if (err) { throw err }
         res.json(result)
         connection.release()
       })
@@ -56,11 +37,13 @@ module.exports = {
       } else {
         var beforeSql = sqlMap.beforeLogin
         connection.query(beforeSql, [name], (err, result) => {
+          if (err) { throw err }
           if (Array.isArray(result) && result.length === 0) {
             res.send('此用户不存在')
           } else {
             var sql = sqlMap.login
             connection.query(sql, [name, pwd], (err, result) => {
+              if (err) { throw err }
               if (Array.isArray(result) && result.length === 0) {
                 res.send('密码错误')
               } else {
@@ -79,8 +62,10 @@ module.exports = {
     var monentImg = req.body.monent_img
     var userName = req.body.user_name
     pool.getConnection((err, connection) => {
+      if (err) { throw err }
       var sql = sqlMap.newMoment
       connection.query(sql, [moment, userId, monentImg, userName], (err, result) => {
+        if (err) { throw err }
         res.json(result)
         connection.release()
       })
@@ -92,8 +77,10 @@ module.exports = {
     var monentImg = req.body.monent_img
     var userName = req.body.user_name
     pool.getConnection((err, connection) => {
+      if (err) { throw err }
       var sql = sqlMap.preMoment
       connection.query(sql, [moment, userId, monentImg, userName], (err, result) => {
+        if (err) { throw err }
         res.json(result)
         connection.release()
       })
@@ -126,8 +113,10 @@ module.exports = {
   getShortInfo (req, res, next) {
     var name = req.query.name
     pool.getConnection((err, connection) => {
+      if (err) { throw err }
       var sql = sqlMap.getShortInfo
       connection.query(sql, [name], (err, result) => {
+        if (err) { throw err }
         res.json(result)
         connection.release()
       })
@@ -136,8 +125,10 @@ module.exports = {
   userMomentCount (req, res, next) {
     var name = req.query.name
     pool.getConnection((err, connection) => {
+      if (err) { throw err }
       var sql = sqlMap.userMomentCount
       connection.query(sql, [name], (err, result) => {
+        if (err) { throw err }
         res.json(result)
         connection.release()
       })
@@ -146,8 +137,10 @@ module.exports = {
   userMoment (req, res, next) {
     var name = req.query.name
     pool.getConnection((err, connection) => {
+      if (err) { throw err }
       var sql = sqlMap.userMoment
       connection.query(sql, [name], (err, result) => {
+        if (err) { throw err }
         res.json(result)
         connection.release()
       })
@@ -156,8 +149,10 @@ module.exports = {
   friendMoment (req, res, next) {
     var name = req.query.name
     pool.getConnection((err, connection) => {
+      if (err) { throw err }
       var sql = sqlMap.friendMoment
       connection.query(sql, [name], (err, result) => {
+        if (err) { throw err }
         res.json(result)
         connection.release()
       })
@@ -166,8 +161,10 @@ module.exports = {
   userFollowed (req, res, next) {
     var name = req.query.name
     pool.getConnection((err, connection) => {
+      if (err) { throw err }
       var sql = sqlMap.userFollowed
       connection.query(sql, [name], (err, result) => {
+        if (err) { throw err }
         res.json(result)
         connection.release()
       })
@@ -176,8 +173,10 @@ module.exports = {
   userFol (req, res, next) {
     var name = req.query.name
     pool.getConnection((err, connection) => {
+      if (err) { throw err }
       var sql = sqlMap.userFol
       connection.query(sql, [name], (err, result) => {
+        if (err) { throw err }
         res.json(result)
         connection.release()
       })
@@ -186,8 +185,10 @@ module.exports = {
   userFan (req, res, next) {
     var name = req.query.name
     pool.getConnection((err, connection) => {
+      if (err) { throw err }
       var sql = sqlMap.userFan
       connection.query(sql, [name], (err, result) => {
+        if (err) { throw err }
         res.json(result)
         connection.release()
       })
@@ -196,8 +197,10 @@ module.exports = {
   userPre (req, res, next) {
     var name = req.query.name
     pool.getConnection((err, connection) => {
+      if (err) { throw err }
       var sql = sqlMap.userPre
       connection.query(sql, [name], (err, result) => {
+        if (err) { throw err }
         res.json(result)
         connection.release()
       })
@@ -206,8 +209,10 @@ module.exports = {
   mySuggest (req, res, next) {
     var name = req.query.name
     pool.getConnection((err, connection) => {
+      if (err) { throw err }
       var sql = sqlMap.mySuggest
       connection.query(sql, [name], (err, result) => {
+        if (err) { throw err }
         res.json(result)
         connection.release()
       })
@@ -325,8 +330,10 @@ module.exports = {
   getInfo (req, res, next) {
     var name = req.query.name
     pool.getConnection((err, connection) => {
+      if (err) { throw err }
       var sql = sqlMap.getInfo
       connection.query(sql, [name], (err, result) => {
+        if (err) { throw err }
         res.json(result)
         connection.release()
       })
@@ -335,8 +342,10 @@ module.exports = {
 
   adminUser (req, res, next) {
     pool.getConnection((err, connection) => {
+      if (err) { throw err }
       var sql = sqlMap.adminUser
       connection.query(sql, [], (err, result) => {
+        if (err) { throw err }
         res.json(result)
         connection.release()
       })
