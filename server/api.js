@@ -395,11 +395,13 @@ module.exports = {
   },
   setrecommend (req, res, next) {
     var status = req.body.status
+    var img = req.body.img
     var id = req.body.id
     pool.getConnection((err, connection) => {
       if (err) { throw err }
-      var sql = sqlMap.cancelRecommend
-      connection.query(sql, [status, id], (err, result) => {
+      var sql = sqlMap.setRecommend
+      console.log(sql)
+      connection.query(sql, [status, img, id], (err, result) => {
         if (err) { res.json(err) }
         res.json(result)
         connection.release()

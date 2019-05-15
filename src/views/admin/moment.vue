@@ -86,11 +86,11 @@ export default {
     handleClick (row) {
       this.dialogVisible = true
       this.userInfo = row
-      console.log(this.userInfo)
     },
     setrecommend (row) {
       axios.post('/api/setrecommend', {
         status: '推荐',
+        img: row.monent_img,
         id: row.id
       }).then((res) => {
         this.init()

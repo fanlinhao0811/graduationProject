@@ -28,10 +28,11 @@ var sqlMap = {
   userFan: 'SELECT * FROM user_follow WHERE follower_name = ? ',
   userPre: 'SELECT * FROM pre_moment WHERE user_name = ? ',
   mySuggest: 'SELECT * FROM suggest WHERE send_user_name = ? ',
-  delPre: 'DELETE FROM pre_moment WHERE id= ? ',
+  delPre: 'DELETE FROM pre_moment WHERE id = ? ',
   adminUser: 'SELECT * FROM user',
   recommend: 'SELECT * FROM recommend',
   cancelRecommend: 'UPDATE recommend SET status = ? WHERE id = ? ',
+  setRecommend: 'INSERT INTO recommend SET status = ? , img = ? , moment_id = ?',
 
   setAdmin: 'UPDATE user SET admin = ? WHERE id = ? ',
   suggest: 'SELECT * FROM suggest',
