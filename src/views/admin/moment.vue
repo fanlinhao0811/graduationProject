@@ -46,10 +46,10 @@
   </el-table>
     <el-dialog
     v-if="userInfo"
-    title="图片详情"
+    title="时刻详情"
     :visible.sync="dialogVisible"
     width="30%">
-    <img :src="userInfo.img" alt="" style="width:300px;">
+    <img :src="userInfo.monent_img" alt="" style="width:300px;">
     <span slot="footer" class="dialog-footer">
       <el-button @click="dialogVisible = false">取 消</el-button>
     </span>
@@ -86,6 +86,7 @@ export default {
     handleClick (row) {
       this.dialogVisible = true
       this.userInfo = row
+      console.log(this.userInfo)
     },
     setrecommend (row) {
       axios.post('/api/setrecommend', {
